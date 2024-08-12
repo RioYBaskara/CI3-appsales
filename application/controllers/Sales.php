@@ -6,7 +6,11 @@ class Sales extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Sales';
-        $this->load->view('template/index', $data);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('sales/index', $data);
+        $this->load->view('templates/footer');
     }
     public function cba()
     {
