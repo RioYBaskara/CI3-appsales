@@ -5,7 +5,8 @@ class Sales extends CI_Controller
 {
     public function index()
     {
-        echo "tes";
+        $data['judul'] = 'Sales';
+        $this->load->view('template/index', $data);
     }
     public function cba()
     {
