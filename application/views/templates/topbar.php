@@ -12,6 +12,10 @@
                 <i class="fa fa-bars"></i>
             </button>
 
+            <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <p class="m-0">Hai! role mu sekarang adalah <b>Admin.</b></p>
+            </div>
+
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
 
