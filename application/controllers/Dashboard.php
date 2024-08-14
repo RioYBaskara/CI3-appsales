@@ -1,6 +1,25 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Buat ngilangin red line, karena intelphense
+ *  @property form_validation $form_validation 
+ *  @property load $load 
+ *  @property input $input 
+ *  @property db $db
+ *  @property session $session
+ *  @property Sales_model $Sales_model
+ *  @property Pks_model $Pks_model
+ *  @property Nasabah_model $Nasabah_model
+ *  @property Closing_model $Closing_model
+ *  @property Aktivitas_model $Aktivitas_model
+ *  @property Menu_model $Menu_model
+ *  @property Submenu_model $Submenu_model
+ *  @property Role_model $Role_model
+ *  @property Access_model $Access_model
+ *  @property Users_model $Users_model
+ */
+
 class Dashboard extends CI_Controller
 {
 
