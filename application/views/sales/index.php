@@ -1,7 +1,3 @@
-<ul>
-    <li>sales- <?= var_dump($sales); ?></li>
-</ul>
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
