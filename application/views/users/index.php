@@ -1,0 +1,174 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"><?= $judul; ?></h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
+
+    <!-- content -->
+    <div class="row">
+        <div class="col-12">
+            <h5>Data Personel</h5>
+            <?php if (validation_errors()): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= validation_errors() ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
+
+            <div class="flash-data" data-flashdata="<?= $this->session->flashdata('flashswal') ?>"></div>
+        </div>
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl col-md-6 mb-4">
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newUsersModal">Tambah User
+                Baru</a>
+            <table class="table table-hover text-center">
+
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nama User</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Role - ID Role</th>
+                        <th scope="col">Sales - ID Sales</th>
+                        <th scope="col">User Aktif</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1; ?>
+                    <?php foreach ($users as $u): ?>
+                        <tr>
+                            <th scope="row"><?= $i; ?></th>
+                            <td><?= $u['id']; ?></td>
+                            <td><?= $u['name']; ?></td>
+                            <td><?= $u['email']; ?></td>
+                            <td><?= $u['password']; ?></td>
+                            <td><?= $u['nama_role']; ?> - <?= $u['role_id']; ?></td>
+                            <td><?= $u['nama_sales']; ?> - <?= $u['id_sales']; ?></td>
+                            <td><input class="form-check-input m-auto" type="checkbox" value="1" id="is_active<?= $u['id'] ?>"
+                                    <?= $u['is_active'] == 1 ? 'checked' : '' ?> disabled>
+                                </td>
+                            <td>
+                            <a data-toggle="modal" data-target="#modal-edit<?= $u['id_sales'] ?>"
+                                class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
+                            <a href="<?= base_url(); ?>sales/hapus/<?= $u['id_sales']; ?>"
+                                class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <?php $i++; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="newUsersModal" tabindex="-1" role="dialog" aria-labelledby="newUsersModal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUsersModalLabel">Tambah Users Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="<?= base_url('users'); ?>" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="users" name="users" placeholder="Nama User">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <select name="role_id" id="role_id" class="form-control">
+                            <option value="">--Pilih Role - ID Role--</option>
+                            <?php foreach ($role as $rl): ?>
+                                <option value="<?= $rl['id']; ?>"><?= $rl['role']; ?> - <?= $rl['id'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="id_sales" id="id_sales" class="form-control">
+                            <option value="">--Pilih Sales - ID Role--</option>
+                            <?php foreach ($sales as $sl): ?>
+                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> - <?= $sl['id_sales'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" name="is_active" id="is_active"
+                                checked>
+                            <label class="form-check-label" for="is_active">
+                                Active?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="date_created" name="date_created"
+                            value="<?= date('Y-m-d H:i:s'); ?>">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php $no = 0;
+foreach ($users as $u):
+    $no++; ?>
+    <div class="row">
+        <div id="modal-edit<?= $u['id_sales'] ?>" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="modal-edit<?= $u['id_sales'] ?>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-edit<?= $u['id_sales'] ?>Label">Edit Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="<?= base_url('sales/edit'); ?>" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" readonly value="<?= $u['id_sales']; ?>" name="id" class="form-control">
+                            <div class="form-group">
+                                <label for="sales<?= $u['id_sales'] ?>" class="col-form-label">Nama Sales:</label>
+                                <input type="text" class="form-control" id="sales<?= $u['id_sales'] ?>" name="sales"
+                                    value="<?= $u['nama_sales'] ?>" placeholder="Masukkan Modal" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
