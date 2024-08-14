@@ -25,7 +25,7 @@
                 </div>
             <?php endif; ?>
 
-            <?= $this->session->flashdata('message'); ?>
+            <div class="flash-data" data-flashdata="<?= $this->session->flashdata('flashswal') ?>"></div>
         </div>
         <!-- Pending Requests Card Example -->
         <div class="col-xl col-md-6 mb-4">

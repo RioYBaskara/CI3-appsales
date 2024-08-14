@@ -19,9 +19,7 @@ class Sales extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->db->insert('sales', ['nama_sales' => $this->input->post('sales')]);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sales telah ditambahkan!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button></div>');
+            $this->session->set_flashdata("flashswal", "Ditambahkan");
             redirect('sales');
         }
     }
@@ -36,9 +34,7 @@ class Sales extends CI_Controller
             );
             $this->db->where('id_sales', $this->input->post('id'));
             $this->db->update('sales', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sales telah diedit!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button></div>');
+            $this->session->set_flashdata("flashswal", "Diedit");
             redirect('sales');
         }
     }
@@ -46,9 +42,7 @@ class Sales extends CI_Controller
     public function hapus($id)
     {
         $this->db->delete("sales", ["id_sales" => $id]);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sales terhapus!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button></div>');
+        $this->session->set_flashdata("flashswal", "Dihapus");
         redirect('sales');
     }
 }
