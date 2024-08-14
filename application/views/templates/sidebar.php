@@ -2,7 +2,7 @@
 <ul class="navbar-nav border bg-light sidebar sidebar-light accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon p-3">
             <img src="<?= base_url('assets/img/logo/logobtn.png'); ?>" alt="" class="img-fluid">
         </div>
@@ -19,9 +19,14 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<?= base_url(''); ?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('sales'); ?>">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Sales</span></a>
     </li>
 
     <!-- Divider -->
