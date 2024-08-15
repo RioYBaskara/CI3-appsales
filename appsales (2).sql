@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2024 at 04:39 AM
+-- Generation Time: Aug 15, 2024 at 05:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,6 +39,13 @@ CREATE TABLE `aktivitas_marketing` (
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `aktivitas_marketing`
+--
+
+INSERT INTO `aktivitas_marketing` (`id_aktivitas`, `id_sales`, `id_nasabah`, `hari`, `tanggal`, `aktivitas`, `status`, `keterangan`, `upload_foto`) VALUES
+(1, 2, 1, 'Selasa', '2024-08-13', 'VISIT', 'NTB', 'Berangkat', 'aktivitas.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -54,6 +61,13 @@ CREATE TABLE `closing` (
   `nominal_closing` decimal(15,2) NOT NULL,
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `closing`
+--
+
+INSERT INTO `closing` (`id_closing`, `id_sales`, `id_nasabah`, `hari`, `tanggal`, `nominal_closing`, `upload_foto`) VALUES
+(1, 2, 1, 'Selasa', '2024-08-13', 50000.00, 'closing.jpg');
 
 -- --------------------------------------------------------
 
@@ -107,7 +121,9 @@ CREATE TABLE `sales` (
 
 INSERT INTO `sales` (`id_sales`, `nama_sales`) VALUES
 (1, 'admin'),
-(2, 'Rio');
+(2, 'Rio'),
+(4, 'dummy salesed'),
+(7, 'Sigma');
 
 -- --------------------------------------------------------
 
@@ -132,7 +148,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role_id`, `id_sales`, `is_active`, `date_created`) VALUES
 (5, 'admin', 'a@a.com', '123', 1, 1, 1, 0),
-(7, 'Rio', 'r@r.com', '123', 2, 2, 1, 0);
+(7, 'Rio', 'r@r.com', '123', 2, 2, 1, 0),
+(9, 'Sigma', 'sgm@sgm.com', '$2y$10$VgMKXqSsASgl103bDGZ.S.Z3rn2JpWLwyewcUh0hSKkJb5N8m05mq', 2, 7, 1, 1723690185);
 
 -- --------------------------------------------------------
 
@@ -300,13 +317,13 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `aktivitas_marketing`
 --
 ALTER TABLE `aktivitas_marketing`
-  MODIFY `id_aktivitas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_aktivitas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `closing`
 --
 ALTER TABLE `closing`
-  MODIFY `id_closing` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_closing` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `nasabah`
@@ -324,13 +341,13 @@ ALTER TABLE `pks`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
