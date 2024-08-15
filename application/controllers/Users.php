@@ -1,6 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/**
+ * Buat ngilangin red line, karena intelphense
+ *  @property form_validation $form_validation 
+ *  @property load $load 
+ *  @property input $input 
+ *  @property db $db
+ *  @property session $session
+ *  @property menu $menu 
+ */
 class Users extends CI_Controller
 {
     public function index()
@@ -18,10 +27,16 @@ class Users extends CI_Controller
         $data['role'] = $this->db->get('user_role')->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('menu_id', 'Menu', 'required');
-        $this->form_validation->set_rules('url', 'URL', 'required');
-        $this->form_validation->set_rules('icon', 'Icon', 'required');
+        $this->form_validation->set_rules('name', 'Nama', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', [
+            'is_unique' => 'Email telah terdaftar!'
+        ]);
+        $this->form_validation->set_rules('password', 'Password', 'trim|min_length[3]', [
+            'min_length' => 'Password too short!'
+        ]);
+        $this->form_validation->set_rules('role_id', 'Role', 'required');
+        $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
+        $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -31,17 +46,19 @@ class Users extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $data = [
-                'title' => $this->input->post('title'),
-                'menu_id' => $this->input->post('menu_id'),
-                'url' => $this->input->post('url'),
-                'icon' => $this->input->post('icon'),
-                'is_active' => $this->input->post('is_active')
+                'name' => htmlspecialchars($this->input->post('name')),
+                'email' => htmlspecialchars($this->input->post('email')),
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'role_id' => $this->input->post('role_id'),
+                'id_sales' => $this->input->post('id_sales'),
+                'is_active' => $this->input->post('is_active'),
+                'date_created' => time()
             ];
-            $this->db->insert('user_sub_menu', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Sub menu added!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            $this->db->insert('users', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">User baru telah terdaftar!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button></div>');
-            redirect('menu/submenu');
+            redirect('users');
         }
     }
     public function edit()

@@ -27,6 +27,7 @@
         <div class="col-xl col-md-6 mb-4">
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSalesModal">Tambah Sales
                 Baru</a>
+            <a href="<?= base_url('users'); ?>" class="btn btn-info mb-3">Ke Page User</a>
             <table class="table table-hover">
 
                 <thead>

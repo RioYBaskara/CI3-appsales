@@ -4,6 +4,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $judul; ?></h1>
+        <p>Default Password "123"</p>
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
@@ -27,6 +28,8 @@
         <div class="col-xl col-md-6 mb-4">
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newUsersModal">Tambah User
                 Baru</a>
+            <a href="<?= base_url('sales'); ?>" class="btn btn-info mb-3">Ke Page Sales
+            </a>
             <table class="table table-hover text-center">
 
                 <thead>
@@ -35,10 +38,10 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nama User</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Password</th>
                         <th scope="col">Role - ID Role</th>
                         <th scope="col">Sales - ID Sales</th>
                         <th scope="col">User Aktif</th>
+                        <th scope="col">Date Created</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -50,12 +53,12 @@
                             <td><?= $u['id']; ?></td>
                             <td><?= $u['name']; ?></td>
                             <td><?= $u['email']; ?></td>
-                            <td><?= $u['password']; ?></td>
                             <td><?= $u['nama_role']; ?> - <?= $u['role_id']; ?></td>
                             <td><?= $u['nama_sales']; ?> - <?= $u['id_sales']; ?></td>
                             <td><input class="form-check-input m-auto" type="checkbox" value="1" id="is_active<?= $u['id'] ?>"
                                     <?= $u['is_active'] == 1 ? 'checked' : '' ?> disabled>
                                 </td>
+                                <td><?= date('d F Y', $u['date_created']); ?></td>
                             <td>
                             <a data-toggle="modal" data-target="#modal-edit<?= $u['id_sales'] ?>"
                                 class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
@@ -91,13 +94,13 @@
             <form action="<?= base_url('users'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="users" name="users" placeholder="Nama User">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama User">
                     </div>
                     <div class="form-group">
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    <div class="form-group d-none">
+                        <input disabled value="123" type="text" class="form-control" id="password" name="password" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <select name="role_id" id="role_id" class="form-control">
