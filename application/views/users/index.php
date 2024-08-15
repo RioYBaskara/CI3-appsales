@@ -63,7 +63,7 @@
                             </td>
                             <td><?= date('d F Y', $u['date_created']); ?></td>
                             <td>
-                                <a data-toggle="modal" data-target="#modal-edit<?= $u['id_sales'] ?>"
+                                <a class="d-none" data-toggle="modal" data-target="#modal-edit<?= $u['id_sales'] ?>"
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
                                 <a href="<?= base_url(); ?>sales/hapus/<?= $u['id_sales']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
