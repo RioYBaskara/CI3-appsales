@@ -110,8 +110,8 @@ foreach ($sales as $s):
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $s['id_sales']; ?>" name="id" class="form-control">
                             <div class="form-group">
-                                <label for="sales<?= $s['id_sales'] ?>" class="col-form-label">Nama Sales:</label>
-                                <input type="text" class="form-control" id="sales<?= $s['id_sales'] ?>" name="sales"
+                                <label for="sales<?= $s['nama_sales'] ?>" class="col-form-label">Nama Sales:</label>
+                                <input type="text" class="form-control" id="sales<?= $s['nama_sales'] ?>" name="sales"
                                     value="<?= $s['nama_sales'] ?>" placeholder="Masukkan Modal" autocomplete="off">
                             </div>
                         </div>
