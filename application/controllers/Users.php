@@ -36,7 +36,6 @@ class Users extends CI_Controller
         ]);
         $this->form_validation->set_rules('role_id', 'Role', 'required');
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
-        $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -55,17 +54,13 @@ class Users extends CI_Controller
                 'date_created' => time()
             ];
             $this->db->insert('users', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">User baru telah terdaftar!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button></div>');
+            $this->session->set_flashdata("flashswal", "Ditambah");
             redirect('users');
         }
     }
     public function edit()
     {
         $data['judul'] = 'Users';
-
-        $data['users'] = $this->db->get('users')->result_array();
 
         $this->db->select('users.id, users.name, users.email, users.password, users.role_id, user_role.role AS nama_role, users.id_sales, sales.nama_sales AS nama_sales, users.is_active, users.date_created');
         $this->db->from('users');
@@ -76,15 +71,19 @@ class Users extends CI_Controller
         $data['role'] = $this->db->get('user_role')->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
+        $current_email = $this->input->post('current_email');
+        $new_email = $this->input->post('email');
+
+        if ($new_email != $current_email) {
+            $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', [
+                'is_unique' => 'Email telah terdaftar!'
+            ]);
+        } else {
+            $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+        }
+
         $this->form_validation->set_rules('name', 'Nama', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', [
-            'is_unique' => 'Email telah terdaftar!'
-        ]);
-        $this->form_validation->set_rules('password', 'Password', 'trim|min_length[3]', [
-            'min_length' => 'Password too short!'
-        ]);
         $this->form_validation->set_rules('role_id', 'Role', 'required');
-        $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -93,20 +92,23 @@ class Users extends CI_Controller
             $data = [
                 'name' => htmlspecialchars($this->input->post('name')),
                 'email' => htmlspecialchars($this->input->post('email')),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'role_id' => $this->input->post('role_id'),
                 'id_sales' => $this->input->post('id_sales'),
                 'is_active' => $this->input->post('is_active'),
             ];
-            $this->db->set('users', $data);
-            // harusnya ini session, berarti bikin baru dlu
-            $this->db->where('email', $this->session->userdata('email'));
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">User telah terbarui!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button></div>');
+
+            $new_password = $this->input->post('password');
+            if (!empty($new_password)) {
+                $data['password'] = password_hash($new_password, PASSWORD_DEFAULT);
+            }
+
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('users', $data);
+            $this->session->set_flashdata("flashswal", "Diedit");
             redirect('users');
         }
     }
+
 
     public function hapus($id)
     {

@@ -60,9 +60,9 @@
                             </td>
                             <td><?= date('d F Y', $u['date_created']); ?></td>
                             <td>
-                                <a class="d-none" data-toggle="modal" data-target="#modal-edit<?= $u['id_sales'] ?>"
-                                    class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>sales/hapus/<?= $u['id_sales']; ?>"
+                                <a data-toggle="modal" data-target="#modal-edit<?= $u['id'] ?>" class="btn btn-success  "><i
+                                        class="fa fa-pencil-alt"></i></a>
+                                <a href="<?= base_url(); ?>sales/hapus/<?= $u['id']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -162,6 +162,7 @@ foreach ($users as $u):
                     <form action="<?= base_url('users/edit'); ?>" method="post">
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $u['id']; ?>" name="id" class="form-control">
+                            <input type="hidden" name="current_email" value="<?= $u['email']; ?>">
                             <div class="form-group">
                                 <label for="users<?= $u['name'] ?>" class="col-form-label">Nama User:</label>
                                 <input type="text" class="form-control" id="users<?= $u['name'] ?>" name="name"
