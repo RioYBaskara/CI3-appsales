@@ -62,7 +62,7 @@
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $u['id'] ?>" class="btn btn-success  "><i
                                         class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>sales/hapus/<?= $u['id']; ?>"
+                                <a href="<?= base_url(); ?>users/hapus/<?= $u['id']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>

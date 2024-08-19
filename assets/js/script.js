@@ -21,8 +21,8 @@ $(".tombol-hapus").on("click", function (e) {
 		text: "Data akan dihapus",
 		icon: "warning",
 		showCancelButton: true,
-		confirmButtonColor: "#3085d6",
-		cancelButtonColor: "#d33",
+		confirmButtonColor: "#d33",
+		cancelButtonColor: "#3085d6",
 		confirmButtonText: "Hapus Data",
 	}).then((result) => {
 		if (result.isConfirmed) {

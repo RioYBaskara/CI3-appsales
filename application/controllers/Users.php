@@ -117,8 +117,8 @@ class Users extends CI_Controller
 
     public function hapus($id)
     {
-        $this->db->delete("sales", ["id_sales" => $id]);
+        $this->db->delete("users", ["id" => $id]);
         $this->session->set_flashdata("flashswal", "Dihapus");
-        redirect('sales');
+        redirect('users');
     }
 }
