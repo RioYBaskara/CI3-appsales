@@ -93,6 +93,11 @@
             </div>
             <form action="<?= base_url('users'); ?>" method="post">
                 <div class="modal-body">
+                    <?php if (validation_errors()): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= validation_errors(); ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group">
                         <input autocomplete="off" type="text" class="form-control" id="name" name="name"
                             placeholder="Nama User">
@@ -163,6 +168,7 @@ foreach ($users as $u):
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $u['id']; ?>" name="id" class="form-control">
                             <input type="hidden" name="current_email" value="<?= $u['email']; ?>">
+
                             <div class="form-group">
                                 <label for="users<?= $u['name'] ?>" class="col-form-label">Nama User:</label>
                                 <input type="text" class="form-control" id="users<?= $u['name'] ?>" name="name"

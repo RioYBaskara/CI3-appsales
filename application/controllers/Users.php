@@ -87,7 +87,11 @@ class Users extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            redirect('users', $data);
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('users/index', $data);
+            $this->load->view('templates/footer');
         } else {
             $data = [
                 'name' => htmlspecialchars($this->input->post('name')),
@@ -108,6 +112,7 @@ class Users extends CI_Controller
             redirect('users');
         }
     }
+
 
 
     public function hapus($id)
