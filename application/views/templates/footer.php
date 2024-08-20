@@ -51,6 +51,28 @@
 <script src="<?= base_url(); ?>assets/js/swal/sweetalert2.all.min.js"></script>
 <script src="<?= base_url('assets/js/script.js'); ?>"></script>
 
+<script>
+    $('.form-check-input').on('click', function () {
+        const menuId = $(this).data('menu');
+        const roleId = $(this).data('role');
+
+        $.ajax({
+            url: "<?= base_url('admin/changeaccess'); ?>",
+            type: 'post',
+            data: {
+                menuId: menuId,
+                roleId: roleId
+            },
+            success: function () {
+                document.location.href = "<?= base_url('admin/roleAccess/'); ?>" + roleId;
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>
