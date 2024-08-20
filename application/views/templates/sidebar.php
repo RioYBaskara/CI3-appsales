@@ -25,8 +25,13 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="<?= base_url('sales'); ?>">
-            <i class="fas fa-fw fa-book"></i>
+            <i class="fas fa-user-tie"></i>
             <span>Sales</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('users'); ?>">
+            <i class="fas fa-id-card"></i>
+            <span>Users</span></a>
     </li>
 
     <!-- Divider -->

@@ -187,7 +187,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('users'); ?>">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
