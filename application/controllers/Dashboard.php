@@ -41,6 +41,7 @@ class Dashboard extends CI_Controller
     public function index()
     {
         $data['title'] = 'Dashboard';
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['jumlahsales'] = $this->Sales_model->jumlahData();
         $data['jumlahpks'] = $this->Pks_model->jumlahData();

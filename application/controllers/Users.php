@@ -15,6 +15,7 @@ class Users extends CI_Controller
     public function index()
     {
         $data['title'] = 'Users';
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['users'] = $this->db->get('users')->result_array();
 

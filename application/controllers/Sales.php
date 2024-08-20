@@ -6,6 +6,7 @@ class Sales extends CI_Controller
     public function index()
     {
         $data['title'] = 'Sales';
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['sales'] = $this->db->get('sales')->result_array();
 
@@ -25,6 +26,7 @@ class Sales extends CI_Controller
     }
     public function edit()
     {
+
         $this->form_validation->set_rules('sales', 'Sales', 'required');
         if ($this->form_validation->run() == FALSE) {
             redirect('sales', $data);

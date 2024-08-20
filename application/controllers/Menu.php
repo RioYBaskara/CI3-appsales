@@ -23,7 +23,7 @@ class Menu extends CI_Controller
     public function index()
     {
         $data['title'] = 'Menu Management';
-        $data['users'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
@@ -47,7 +47,7 @@ class Menu extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Menu Management';
-        $data['users'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->form_validation->set_rules('menu', 'Menu', 'required');
         if ($this->form_validation->run() == FALSE) {
@@ -78,7 +78,7 @@ class Menu extends CI_Controller
     public function submenu()
     {
         $data['title'] = 'Submenu Management';
-        $data['users'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $query = "SELECT `user_sub_menu`.*, `user_menu`.`menu`
                 FROM `user_sub_menu` JOIN `user_menu`
@@ -118,7 +118,7 @@ class Menu extends CI_Controller
     public function submenuedit()
     {
         $data['title'] = 'Submenu Management';
-        $data['users'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('menu_id', 'Menu', 'required');
