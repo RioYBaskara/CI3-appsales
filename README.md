@@ -1,3 +1,7 @@
+# Note
+
+1 Controller untuk 1 Menu.
+
 # Aplikasi Manajemen Sales
 
 Aplikasi Manajemen Sales ini dikembangkan untuk memudahkan pengelolaan aktivitas marketing, data closing, dan perjanjian kerjasama (PKS) dari sales. Aplikasi ini juga dilengkapi dengan sistem autentikasi, otorisasi, dan Role-Based Access Control (RBAC) untuk mengatur hak akses pengguna.
@@ -5,21 +9,25 @@ Aplikasi Manajemen Sales ini dikembangkan untuk memudahkan pengelolaan aktivitas
 ## Fitur Utama
 
 1. **Manajemen Aktivitas Marketing**
+
    - Input dan kelola data aktivitas marketing seperti administrasi, panggilan, atau kunjungan.
    - Simpan informasi nasabah dan status aktivitas (NTB/ETB).
    - Unggah foto terkait aktivitas.
 
 2. **Manajemen Data Closing**
+
    - Input dan kelola data closing dari sales.
    - Simpan informasi nominal closing dan rekening nasabah.
    - Unggah foto terkait closing.
 
 3. **Manajemen Perjanjian Kerjasama (PKS)**
+
    - Input dan kelola data perjanjian kerjasama (PKS).
    - Simpan informasi nomor PKS dan tanggal mulai serta akhir PKS.
    - Unggah foto terkait PKS.
 
 4. **Autentikasi dan Otorisasi**
+
    - Fitur login untuk setiap user, dengan akses yang dibatasi sesuai dengan role yang dimiliki.
    - Fitur pengelolaan user dan penggantian password yang hanya dapat diakses oleh admin.
 
@@ -47,6 +55,7 @@ Aplikasi Manajemen Sales ini dikembangkan untuk memudahkan pengelolaan aktivitas
 ## Struktur Database
 
 Aplikasi ini menggunakan beberapa tabel utama:
+
 - `sales`: Menyimpan data sales.
 - `nasabah`: Menyimpan data nasabah.
 - `aktivitas_marketing`: Menyimpan data aktivitas marketing.
