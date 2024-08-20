@@ -40,7 +40,7 @@ class Dashboard extends CI_Controller
 
     public function index()
     {
-        $data['judul'] = 'Dashboard';
+        $data['title'] = 'Dashboard';
 
         $data['jumlahsales'] = $this->Sales_model->jumlahData();
         $data['jumlahpks'] = $this->Pks_model->jumlahData();

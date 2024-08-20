@@ -5,7 +5,7 @@ class Sales extends CI_Controller
 {
     public function index()
     {
-        $data['judul'] = 'Sales';
+        $data['title'] = 'Sales';
 
         $data['sales'] = $this->db->get('sales')->result_array();
 

@@ -14,7 +14,7 @@ class Users extends CI_Controller
 {
     public function index()
     {
-        $data['judul'] = 'Users';
+        $data['title'] = 'Users';
 
         $data['users'] = $this->db->get('users')->result_array();
 
@@ -61,7 +61,7 @@ class Users extends CI_Controller
     }
     public function edit()
     {
-        $data['judul'] = 'Users';
+        $data['title'] = 'Users';
 
         $this->db->select('users.id, users.name, users.email, users.password, users.role_id, user_role.role AS nama_role, users.id_sales, sales.nama_sales AS nama_sales, users.is_active, users.date_created');
         $this->db->from('users');
