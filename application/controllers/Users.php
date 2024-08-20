@@ -25,7 +25,8 @@ class Users extends CI_Controller
         $data['users'] = $this->db->get()->result_array();
 
         $data['role'] = $this->db->get('user_role')->result_array();
-        $data['sales'] = $this->db->get('sales')->result_array();
+        $querysales = "SELECT * FROM sales WHERE id_sales NOT IN (SELECT id_sales FROM users)";
+        $data['sales'] = $this->db->query($querysales)->result_array();
 
         $this->form_validation->set_rules('name', 'Nama', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', [
