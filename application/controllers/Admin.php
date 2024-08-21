@@ -113,4 +113,49 @@ class Admin extends CI_Controller
                     <span aria-hidden="true">&times;</span>
                 </button></div>');
     }
+
+    public function sales()
+    {
+        $data['title'] = 'Sales';
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['sales'] = $this->db->get('sales')->result_array();
+
+        $this->form_validation->set_rules('sales', 'Sales', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('sales/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->db->insert('sales', ['nama_sales' => $this->input->post('sales')]);
+            $this->session->set_flashdata("flashswal", "Ditambahkan");
+            redirect('admin/sales');
+        }
+    }
+    public function salesedit()
+    {
+
+        $this->form_validation->set_rules('sales', 'Sales', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            redirect('admin/sales', $data);
+        } else {
+            $data = array(
+                "nama_sales" => $this->input->post('sales')
+            );
+            $this->db->where('id_sales', $this->input->post('id'));
+            $this->db->update('sales', $data);
+            $this->session->set_flashdata("flashswal", "Diedit");
+            redirect('admin/sales');
+        }
+    }
+
+    public function saleshapus($id)
+    {
+        $this->db->delete("sales", ["id_sales" => $id]);
+        $this->session->set_flashdata("flashswal", "Dihapus");
+        redirect('admin/sales');
+    }
 }

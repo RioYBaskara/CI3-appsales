@@ -48,7 +48,7 @@
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $s['id_sales'] ?>"
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>sales/hapus/<?= $s['id_sales']; ?>"
+                                <a href="<?= base_url(); ?>admin/saleshapus/<?= $s['id_sales']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -77,7 +77,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('sales'); ?>" method="post">
+            <form action="<?= base_url('admin/sales'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="sales" name="sales" placeholder="Nama Sales">
@@ -106,7 +106,7 @@ foreach ($sales as $s):
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="<?= base_url('sales/edit'); ?>" method="post">
+                    <form action="<?= base_url('admin/salesedit'); ?>" method="post">
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $s['id_sales']; ?>" name="id" class="form-control">
                             <div class="form-group">
