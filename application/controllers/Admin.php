@@ -22,7 +22,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -53,6 +52,16 @@ class Admin extends CI_Controller
         $data['jumlahrole'] = $this->Role_model->jumlahData();
         $data['jumlahaccess'] = $this->Access_model->jumlahData();
         $data['jumlahuser'] = $this->Users_model->jumlahData();
+
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);

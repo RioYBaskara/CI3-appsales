@@ -6,6 +6,7 @@ function is_logged_in()
     if (!$ci->session->userdata("email")) {
         redirect("auth");
     } else {
+        // Nama Menu pada user_menu harus sama dengan URI pertama. http://localhost/appsales/menu/ atau harus sama dengan controller
         $role_id = $ci->session->userdata("role_id");
         $menu = $ci->uri->segment(1);
 
@@ -18,7 +19,7 @@ function is_logged_in()
         ]);
 
         if ($userAccess->num_rows() < 1) {
-            redirect('users');
+            redirect('auth/blocked');
         }
     }
 }
