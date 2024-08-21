@@ -27,7 +27,7 @@
         <div class="col-xl col-md-6 mb-4">
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newUsersModal">Tambah User
                 Baru</a>
-            <a href="<?= base_url('sales'); ?>" class="btn btn-info mb-3">Ke Page Sales
+            <a href="<?= base_url('admin/sales'); ?>" class="btn btn-info mb-3">Ke Page Sales
             </a>
             <table class="table table-hover text-center">
 
@@ -62,7 +62,7 @@
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $u['id'] ?>" class="btn btn-success  "><i
                                         class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>users/hapus/<?= $u['id']; ?>"
+                                <a href="<?= base_url(); ?>admin/usershapus/<?= $u['id']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -91,7 +91,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('users'); ?>" method="post">
+            <form action="<?= base_url('admin/users'); ?>" method="post">
                 <div class="modal-body">
                     <?php if (validation_errors()): ?>
                         <div class="alert alert-danger" role="alert">
@@ -164,7 +164,7 @@ foreach ($users as $u):
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="<?= base_url('users/edit'); ?>" method="post">
+                    <form action="<?= base_url('admin/usersedit'); ?>" method="post">
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $u['id']; ?>" name="id" class="form-control">
                             <input type="hidden" name="current_email" value="<?= $u['email']; ?>">
