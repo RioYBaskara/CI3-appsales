@@ -317,4 +317,59 @@ class Admin extends CI_Controller
         $this->session->set_flashdata("flashswal", "Dihapus");
         redirect('admin/users');
     }
+
+    public function nasabah()
+    {
+        $data['title'] = 'Nasabah - Admin';
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['sales'] = $this->db->get('sales')->result_array();
+
+        $this->form_validation->set_rules('sales', 'Sales', 'required');
+
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('sales/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->db->insert('sales', ['nama_sales' => $this->input->post('sales')]);
+            $this->session->set_flashdata("flashswal", "Ditambahkan");
+            redirect('admin/sales');
+        }
+    }
+    public function nasabahedit()
+    {
+
+        $this->form_validation->set_rules('sales', 'Sales', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            redirect('admin/sales', $data);
+        } else {
+            $data = array(
+                "nama_sales" => $this->input->post('sales')
+            );
+            $this->db->where('id_sales', $this->input->post('id'));
+            $this->db->update('sales', $data);
+            $this->session->set_flashdata("flashswal", "Diedit");
+            redirect('admin/sales');
+        }
+    }
+
+    public function nasabahhapus($id)
+    {
+        $this->db->delete("sales", ["id_sales" => $id]);
+        $this->session->set_flashdata("flashswal", "Dihapus");
+        redirect('admin/sales');
+    }
 }
