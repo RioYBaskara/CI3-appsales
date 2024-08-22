@@ -56,7 +56,7 @@
             <h5>Data Aplikasi</h5>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('data/aktivitas'); ?>">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -74,7 +74,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('data/closing'); ?>">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -92,7 +92,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('data/pks'); ?>">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -115,7 +115,7 @@
             <h5>Data Admin</h5>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('menu'); ?>">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -133,7 +133,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('menu/submenu'); ?>">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -151,7 +151,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('admin/role'); ?>">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -169,7 +169,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('admin/role'); ?>">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">

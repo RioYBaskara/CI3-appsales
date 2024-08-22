@@ -22,6 +22,17 @@ class Menu extends CI_Controller
     // menu
     public function index()
     {
+
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
+
         $data['title'] = 'Menu Management';
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -77,6 +88,16 @@ class Menu extends CI_Controller
     // Submenu
     public function submenu()
     {
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
+
         $data['title'] = 'Submenu Management';
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 

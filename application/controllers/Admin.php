@@ -76,6 +76,16 @@ class Admin extends CI_Controller
 
         $data['role'] = $this->db->get('user_role')->result_array();
 
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -92,6 +102,16 @@ class Admin extends CI_Controller
 
         $this->db->where('id !=', 1);
         $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -131,6 +151,16 @@ class Admin extends CI_Controller
         $data['sales'] = $this->db->get('sales')->result_array();
 
         $this->form_validation->set_rules('sales', 'Sales', 'required');
+
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -184,6 +214,16 @@ class Admin extends CI_Controller
         $data['role'] = $this->db->get('user_role')->result_array();
         $querysales = "SELECT * FROM sales WHERE id_sales NOT IN (SELECT id_sales FROM users)";
         $data['sales'] = $this->db->query($querysales)->result_array();
+
+        $role_id = $this->session->userdata("role_id");
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
 
         $this->form_validation->set_rules('name', 'Nama', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', [
