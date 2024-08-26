@@ -20,22 +20,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  @property Users_model $Users_model
  */
 
-class Admin extends CI_Controller
+class Admindata extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         is_logged_in();
-        $this->load->model('Sales_model');
-        $this->load->model('Pks_model');
-        $this->load->model('Nasabah_model');
-        $this->load->model('Closing_model');
-        $this->load->model('Aktivitas_model');
-        $this->load->model('rbac/Menu_model');
-        $this->load->model('rbac/Submenu_model');
-        $this->load->model('rbac/Role_model');
-        $this->load->model('rbac/Access_model');
-        $this->load->model('rbac/Users_model');
     }
 
     public function index()
