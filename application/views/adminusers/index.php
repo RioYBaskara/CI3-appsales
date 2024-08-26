@@ -37,6 +37,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nama User</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Role - ID Role</th>
                         <th scope="col">Sales - ID Sales</th>
                         <th scope="col">User Aktif</th>
@@ -52,6 +53,7 @@
                             <td><?= $u['id']; ?></td>
                             <td><?= $u['name']; ?></td>
                             <td><?= $u['email']; ?></td>
+                            <td><?= $u['image']; ?></td>
                             <td><?= $u['nama_role']; ?> - <?= $u['role_id']; ?></td>
                             <td><?= $u['nama_sales']; ?> - <?= $u['id_sales']; ?></td>
                             <td>
@@ -178,6 +180,11 @@ foreach ($users as $u):
                                 <label for="users<?= $u['email'] ?>" class="col-form-label">Nama Email:</label>
                                 <input type="text" class="form-control" id="users<?= $u['email'] ?>" name="email"
                                     value="<?= $u['email'] ?>" placeholder="Masukkan Email User" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="users<?= $u['image'] ?>" class="col-form-label">Nama Image:</label>
+                                <input type="text" class="form-control" id="users<?= $u['image'] ?>" name="image"
+                                    value="<?= $u['image'] ?>" placeholder="Masukkan Image User" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="users<?= $u['password'] ?>" class="col-form-label">Password Baru User:</label>
