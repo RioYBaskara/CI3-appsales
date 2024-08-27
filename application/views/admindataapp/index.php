@@ -74,27 +74,29 @@
                 </button>
             </div>
             <form action="<?= base_url('admindataaplikasi'); ?>" method="post">
-                <div class="form-group">
-                    <select name="id_sales" id="id_sales" class="form-control">
-                        <option value="">--Pilih Sales - ID Sales--</option>
-                        <?php foreach ($sales as $sl): ?>
-                            <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> - <?= $sl['id_sales'] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select name="id_sales" id="id_sales" class="form-control">
+                            <option value="">--Pilih Sales - ID Sales--</option>
+                            <?php foreach ($sales as $sl): ?>
+                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> - <?= $sl['id_sales'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" type="text" class="form-control" id="nama_nasabah" name="nama_nasabah"
+                            placeholder="Nama Nasabah">
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" type="text" class="form-control" id="no_rekening" name="no_rekening"
+                            placeholder="No Rekening">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input autocomplete="off" type="text" class="form-control" id="nama_nasabah" name="nama_nasabah"
-                        placeholder="Nama Nasabah">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
                 </div>
-                <div class="form-group">
-                    <input autocomplete="off" type="text" class="form-control" id="no_rekening" name="no_rekening"
-                        placeholder="No Rekening">
-                </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Tambah</button>
         </div>
         </form>
     </div>
