@@ -257,8 +257,8 @@ class Data extends CI_Controller
 
         $data['aktivitas_marketing'] = $this->db->get()->row_array();
         $data['sales'] = $this->db->get('sales')->result_array();
-        $data['sales'] = $this->db->get('nasabah')->result_array();
 
+        // Form validation rules
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
@@ -337,6 +337,6 @@ class Data extends CI_Controller
     {
         $this->db->delete("users", ["id" => $id_aktivitas]);
         $this->session->set_flashdata("flashswal", "Dihapus");
-        redirect('data/aktivitasmarketing');
+        redirect('admin/users');
     }
 }
