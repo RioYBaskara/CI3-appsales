@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2024 at 05:36 AM
+-- Generation Time: Aug 28, 2024 at 04:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,13 +39,6 @@ CREATE TABLE `aktivitas_marketing` (
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `aktivitas_marketing`
---
-
-INSERT INTO `aktivitas_marketing` (`id_aktivitas`, `id_sales`, `id_nasabah`, `hari`, `tanggal`, `aktivitas`, `status`, `keterangan`, `upload_foto`) VALUES
-(1, 2, 1, 'Selasa', '2024-08-13', 'VISIT', 'NTB', 'Berangkat', 'aktivitas.jpg');
-
 -- --------------------------------------------------------
 
 --
@@ -62,13 +55,6 @@ CREATE TABLE `closing` (
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `closing`
---
-
-INSERT INTO `closing` (`id_closing`, `id_sales`, `id_nasabah`, `hari`, `tanggal`, `nominal_closing`, `upload_foto`) VALUES
-(1, 2, 1, 'Selasa', '2024-08-13', 50000.00, 'closing.jpg');
-
 -- --------------------------------------------------------
 
 --
@@ -77,6 +63,7 @@ INSERT INTO `closing` (`id_closing`, `id_sales`, `id_nasabah`, `hari`, `tanggal`
 
 CREATE TABLE `nasabah` (
   `id_nasabah` int(11) NOT NULL,
+  `id_sales` int(11) NOT NULL,
   `nama_nasabah` varchar(100) NOT NULL,
   `no_rekening` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -85,8 +72,8 @@ CREATE TABLE `nasabah` (
 -- Dumping data for table `nasabah`
 --
 
-INSERT INTO `nasabah` (`id_nasabah`, `nama_nasabah`, `no_rekening`) VALUES
-(1, 'RioNasabah', '1231231231231231');
+INSERT INTO `nasabah` (`id_nasabah`, `id_sales`, `nama_nasabah`, `no_rekening`) VALUES
+(2, 1, 'adminnasabah', '11223344');
 
 -- --------------------------------------------------------
 
@@ -123,7 +110,10 @@ INSERT INTO `sales` (`id_sales`, `nama_sales`) VALUES
 (1, 'admin'),
 (2, 'Rio'),
 (4, 'dummy salesed'),
-(7, 'Sigma');
+(7, 'Sigmaskibidi'),
+(8, 'Dummy'),
+(9, 'Dummilagi'),
+(10, 'Dummayss');
 
 -- --------------------------------------------------------
 
@@ -135,6 +125,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
+  `image` varchar(128) NOT NULL,
   `password` varchar(256) NOT NULL,
   `role_id` int(11) NOT NULL,
   `id_sales` int(11) NOT NULL,
@@ -146,10 +137,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role_id`, `id_sales`, `is_active`, `date_created`) VALUES
-(5, 'admin', 'a@a.com', '123', 1, 1, 1, 0),
-(7, 'Rio', 'r@r.com', '123', 2, 2, 1, 0),
-(9, 'Sigma', 'sgm@sgm.com', '$2y$10$VgMKXqSsASgl103bDGZ.S.Z3rn2JpWLwyewcUh0hSKkJb5N8m05mq', 2, 7, 1, 1723690185);
+INSERT INTO `users` (`id`, `name`, `email`, `image`, `password`, `role_id`, `id_sales`, `is_active`, `date_created`) VALUES
+(5, 'admin', 'a@a.com', 'logo_(2).png', '$2y$10$gOGNm44ImI7oy1DztxwiweRgGoqgFNkOzi.QLQcYvWV9J4CdOMVym', 1, 1, 1, 0),
+(7, 'Rio', 'r@r.com', 'btn_favicon.png', '$2y$10$lFpOxJJCwnXthuF26f8hoORlBtOibYywlnKw5d8837k/guCGhJWtS', 2, 2, 1, 0),
+(9, 'Sigma', 'sgm@sgm.com', 'default.jpg', '$2y$10$VgMKXqSsASgl103bDGZ.S.Z3rn2JpWLwyewcUh0hSKkJb5N8m05mq', 2, 7, 1, 1723690185),
+(11, 'Dumdums', 'sg@sg.com', 'default.jpg', '$2y$10$RGCjDh4hj80Po6DOepZBGeLhN1uOVyCOtdswM321/.j4DYH/Udxea', 2, 4, 1, 1724121519);
 
 -- --------------------------------------------------------
 
@@ -170,7 +162,9 @@ CREATE TABLE `user_access_menu` (
 INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
-(3, 2, 2);
+(3, 2, 2),
+(4, 1, 3),
+(6, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -189,7 +183,10 @@ CREATE TABLE `user_menu` (
 
 INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (1, 'Admin'),
-(2, 'User');
+(2, 'Users'),
+(3, 'Menu'),
+(5, 'Testing'),
+(6, 'AdminDataAplikasi');
 
 -- --------------------------------------------------------
 
@@ -231,8 +228,17 @@ CREATE TABLE `user_sub_menu` (
 
 INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active`) VALUES
 (1, 1, 'Dashboard', 'admin', 'fas fa-fw fa-tachometer-alt', 1),
-(2, 2, 'My Profile', 'user', 'fas fa-fw fa-user', 1),
-(3, 2, 'Edit Profile', 'user/edit', 'fas fa-fw fa-user-edit', 1);
+(2, 2, 'My Profile', 'users', 'fas fa-fw fa-user', 1),
+(3, 2, 'Edit Profile', 'users/edit', 'fas fa-fw fa-user-edit', 1),
+(4, 1, 'Sales', 'admin/sales', 'fas fa-user-tie', 1),
+(5, 1, 'Users', 'admin/users', 'fas fa-id-card', 1),
+(6, 3, 'Menu Management', 'menu', 'fas fas-fw fa-folder', 1),
+(7, 3, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
+(9, 5, 'Tester', 'tester', 'fas fas-fw fa-folder', 1),
+(10, 1, 'Role', 'admin/role', 'fas fa-fw fa-user-tie', 1),
+(11, 6, 'Data Nasabah', 'admindataaplikasi', 'fas fa-male', 1),
+(12, 2, 'Change Password', 'users/changepassword', 'fas fa-fw fa-key', 1),
+(13, 6, 'Data Aktivitas Marketing', 'admindataaplikasi/aktivitasmarketing', 'fas fa-male', 1);
 
 --
 -- Indexes for dumped tables
@@ -258,7 +264,8 @@ ALTER TABLE `closing`
 -- Indexes for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  ADD PRIMARY KEY (`id_nasabah`);
+  ADD PRIMARY KEY (`id_nasabah`),
+  ADD KEY `nasabah_ibfk_1` (`id_sales`);
 
 --
 -- Indexes for table `pks`
@@ -329,37 +336,37 @@ ALTER TABLE `closing`
 -- AUTO_INCREMENT for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pks`
 --
 ALTER TABLE `pks`
-  MODIFY `id_pks` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pks` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -371,7 +378,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -390,6 +397,12 @@ ALTER TABLE `aktivitas_marketing`
 ALTER TABLE `closing`
   ADD CONSTRAINT `closing_ibfk_1` FOREIGN KEY (`id_sales`) REFERENCES `sales` (`id_sales`),
   ADD CONSTRAINT `closing_ibfk_2` FOREIGN KEY (`id_nasabah`) REFERENCES `nasabah` (`id_nasabah`);
+
+--
+-- Constraints for table `nasabah`
+--
+ALTER TABLE `nasabah`
+  ADD CONSTRAINT `nasabah_ibfk_1` FOREIGN KEY (`id_sales`) REFERENCES `sales` (`id_sales`);
 
 --
 -- Constraints for table `pks`
