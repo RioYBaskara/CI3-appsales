@@ -184,7 +184,7 @@ class Data extends CI_Controller
 
             $hari = $namaHariIndonesia[$hariInggris];
 
-            // upload gambar
+            // upload gambar masi gagal
             $upload_image = $_FILES['image']['name'];
 
             if ($upload_image) {
