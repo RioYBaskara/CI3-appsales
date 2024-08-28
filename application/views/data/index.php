@@ -44,7 +44,7 @@
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $nsb['id_nasabah'] ?>"
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>admindataaplikasi/nasabahhapus/<?= $nsb['id_nasabah']; ?>"
+                                <a href="<?= base_url(); ?>data/nasabahhapus/<?= $nsb['id_nasabah']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -73,7 +73,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('admindataaplikasi'); ?>" method="post">
+            <form action="<?= base_url('data'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <select name="id_sales" id="id_sales" class="form-control">
@@ -117,7 +117,7 @@ foreach ($nasabah as $nsb):
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="<?= base_url('admindataaplikasi/nasabahedit'); ?>" method="post">
+                    <form action="<?= base_url('data/nasabahedit'); ?>" method="post">
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $nsb['id_nasabah']; ?>" name="id_nasabah"
                                 class="form-control">
