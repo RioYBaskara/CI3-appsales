@@ -270,7 +270,7 @@ class Data extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('data/edit_aktivitasmarketing', $data);
+            $this->load->view('data/aktivitasmarketing', $data);
             $this->load->view('templates/footer');
         } else {
             $tanggal = $this->input->post('tanggal');
@@ -328,7 +328,7 @@ class Data extends CI_Controller
             $this->db->where('id', $id);
             $this->db->update('aktivitas_marketing', $data_update);
             $this->session->set_flashdata("flashswal", "Diubah");
-            redirect('Data/aktivitasmarketing');
+            redirect('data/aktivitasmarketing');
         }
     }
 
