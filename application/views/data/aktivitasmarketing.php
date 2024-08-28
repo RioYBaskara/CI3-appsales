@@ -50,7 +50,10 @@
                             <td><?= $akm['aktivitas']; ?></td>
                             <td><?= $akm['status']; ?></td>
                             <td><?= $akm['keterangan']; ?></td>
-                            <td><?= $akm['upload_foto']; ?></td>
+                            <td>
+                                <img src="<?= base_url('assets/img/aktivitas/') . $akm['upload_foto']; ?>"
+                                    alt="Foto Aktivitas" class="img-thumbnail" style="width: 100px; height: auto;">
+                            </td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $akm['id_aktivitas'] ?>"
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
