@@ -8,6 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  @property input $input 
  *  @property db $db
  *  @property session $session
+ *  @property upload $upload
  */
 
 class Data extends CI_Controller
@@ -138,41 +139,101 @@ class Data extends CI_Controller
         $this->db->where('id', $role_id);
         $query = $this->db->get();
         $result = $query->row_array();
-
         $data['roleuser'] = $result['role'];
 
         $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
         $this->db->from('aktivitas_marketing');
         $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
         $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
-        $query = $this->db->get();
 
         if ($role_id != 1) {
-            $this->db->where('nasabah.id_sales', $id_sales);
+            $this->db->where('aktivitas_marketing.id_sales', $id_sales);
         }
 
         $data['aktivitas_marketing'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
-        $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required');
+        $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('aktivitas', 'Aktivitas', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('data/index', $data);
+            $this->load->view('data/aktivitasmarketing', $data);
             $this->load->view('templates/footer');
         } else {
-            $data = [
-                'id_sales' => $this->input->post('id_sales'),
-                'nama_nasabah' => $this->input->post('nama_nasabah'),
-                'no_rekening' => $this->input->post('no_rekening'),
+            $tanggal = $this->input->post('tanggal');
+            $timestamp = strtotime($tanggal);
+            $hariInggris = date('l', $timestamp);
+
+            $namaHariIndonesia = [
+                'Sunday' => 'Minggu',
+                'Monday' => 'Senin',
+                'Tuesday' => 'Selasa',
+                'Wednesday' => 'Rabu',
+                'Thursday' => 'Kamis',
+                'Friday' => 'Jumat',
+                'Saturday' => 'Sabtu'
             ];
-            $this->db->insert('nasabah', $data);
-            $this->session->set_flashdata("flashswal", "Ditambah");
-            redirect('Data/aktivitasmarketing');
+
+            $hari = $namaHariIndonesia[$hariInggris];
+
+            // Proses upload gambar
+            $upload_image = $_FILES['image']['name'];
+
+            if ($upload_image) {
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['max_size'] = '2048';
+                $config['upload_path'] = './assets/img/aktivitas/';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $new_image = $this->upload->data('file_name');
+
+                    $data_input = [
+                        'id_sales' => $this->input->post('id_sales'),
+                        'id_nasabah' => $this->input->post('id_nasabah'),
+                        'tanggal' => $tanggal,
+                        'hari' => $hari,
+                        'aktivitas' => $this->input->post('aktivitas'),
+                        'status' => $this->input->post('status'),
+                        'keterangan' => $this->input->post('keterangan'),
+                        'upload_foto' => $new_image,
+                    ];
+
+                    $this->db->insert('aktivitas_marketing', $data_input);
+                    $this->session->set_flashdata("flashswal", "Ditambah");
+                    redirect('Data/aktivitasmarketing');
+
+                } else {
+                    echo $this->upload->display_errors();
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $this->upload->display_errors() . '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button></div>');
+                    redirect('Data/aktivitasmarketing');
+                }
+            } else {
+                $data_input = [
+                    'id_sales' => $this->input->post('id_sales'),
+                    'id_nasabah' => $this->input->post('id_nasabah'),
+                    'tanggal' => $tanggal,
+                    'hari' => $hari,
+                    'aktivitas' => $this->input->post('aktivitas'),
+                    'status' => $this->input->post('status'),
+                    'keterangan' => $this->input->post('keterangan'),
+                    'upload_foto' => 'default.jpg',
+                ];
+
+                $this->db->insert('aktivitas_marketing', $data_input);
+                $this->session->set_flashdata("flashswal", "Ditambah");
+                redirect('Data/aktivitasmarketing');
+            }
         }
     }
 
