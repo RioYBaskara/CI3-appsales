@@ -152,6 +152,7 @@ class Data extends CI_Controller
 
         $data['aktivitas_marketing'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
+        $data['nasabah'] = $this->db->get('nasabah')->result_array();
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
