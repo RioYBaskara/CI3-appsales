@@ -127,7 +127,53 @@ class Data extends CI_Controller
     // Aktivitas Marketing
     public function aktivitasmarketing()
     {
+        $data['title'] = 'Data Aktivitas Marketing';
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
+        $role_id = $this->session->userdata("role_id");
+        $id_sales = $data['user']['id_sales'];
+
+        $this->db->select('role');
+        $this->db->from('user_role');
+        $this->db->where('id', $role_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+
+        $data['roleuser'] = $result['role'];
+
+        $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('aktivitas_marketing');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
+        $query = $this->db->get();
+
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
+
+        $data['aktivitas_marketing'] = $this->db->get()->result_array();
+        $data['sales'] = $this->db->get('sales')->result_array();
+
+        $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
+        $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('data/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $data = [
+                'id_sales' => $this->input->post('id_sales'),
+                'nama_nasabah' => $this->input->post('nama_nasabah'),
+                'no_rekening' => $this->input->post('no_rekening'),
+            ];
+            $this->db->insert('nasabah', $data);
+            $this->session->set_flashdata("flashswal", "Ditambah");
+            redirect('Data/aktivitasmarketing');
+        }
     }
 
     public function aktivitasmarketingedit()
