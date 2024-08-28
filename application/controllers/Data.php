@@ -24,6 +24,7 @@ class Data extends CI_Controller
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $role_id = $this->session->userdata("role_id");
+        $id_sales = $data['user']['id_sales'];
 
         $this->db->select('role');
         $this->db->from('user_role');
@@ -36,8 +37,12 @@ class Data extends CI_Controller
         $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
-        $data['nasabah'] = $this->db->get()->result_array();
 
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
+
+        $data['nasabah'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
@@ -68,6 +73,7 @@ class Data extends CI_Controller
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $role_id = $this->session->userdata("role_id");
+        $id_sales = $data['user']['id_sales'];
 
         $this->db->select('role');
         $this->db->from('user_role');
@@ -80,8 +86,12 @@ class Data extends CI_Controller
         $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
-        $data['nasabah'] = $this->db->get()->result_array();
 
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
+
+        $data['nasabah'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
