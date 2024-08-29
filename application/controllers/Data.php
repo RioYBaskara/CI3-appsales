@@ -347,7 +347,7 @@ class Data extends CI_Controller
 
     public function aktivitasmarketinghapus($id_aktivitas)
     {
-        $this->db->delete("users", ["id" => $id_aktivitas]);
+        $this->db->delete("aktivitas_marketing", ["id_aktivitas" => $id_aktivitas]);
         $this->session->set_flashdata("flashswal", "Dihapus");
         redirect('data/aktivitasmarketing');
     }

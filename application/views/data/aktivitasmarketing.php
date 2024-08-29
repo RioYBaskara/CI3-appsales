@@ -56,7 +56,7 @@
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $akm['id_aktivitas'] ?>"
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>data/aktivitasmarketing/hapus/<?= $akm['id_aktivitas']; ?>"
+                                <a href="<?= base_url(); ?>data/aktivitasmarketinghapus/<?= $akm['id_aktivitas']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
