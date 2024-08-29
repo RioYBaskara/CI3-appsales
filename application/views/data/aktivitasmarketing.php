@@ -1,6 +1,5 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <?= var_dump($aktivitas_marketing); ?>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
@@ -87,15 +86,22 @@
             </div>
             <form action="<?= base_url('data/aktivitasmarketing'); ?>" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <select name="id_sales" id="id_sales" class="form-control">
-                            <option value="">--Pilih Sales - ID Sales--</option>
-                            <?php foreach ($sales as $sl): ?>
-                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> - <?= $sl['id_sales'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <?php if ($role_id == 1): ?>
+                        <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
+                        <div class="form-group">
+                            <select name="id_sales" id="id_sales" class="form-control">
+                                <option value="">--Pilih Sales - ID Sales--</option>
+                                <?php foreach ($sales as $sl): ?>
+                                    <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> - <?= $sl['id_sales'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php else: ?>
+                        <!-- Jika bukan Admin, tampilkan sales user otomatis -->
+                        <input type="hidden" name="id_sales" value="<?= $id_sales ?>">
+                    <?php endif; ?>
+
                     <div class="form-group">
                         <select name="id_nasabah" id="id_nasabah" class="form-control">
                             <option value="">--Pilih Nasabah - ID Nasabah--</option>

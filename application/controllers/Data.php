@@ -132,7 +132,9 @@ class Data extends CI_Controller
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $role_id = $this->session->userdata("role_id");
+        $data['role_id'] = $role_id;
         $id_sales = $data['user']['id_sales'];
+        $data['id_sales'] = $id_sales;
 
         $this->db->select('role');
         $this->db->from('user_role');
@@ -152,7 +154,16 @@ class Data extends CI_Controller
 
         $data['aktivitas_marketing'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
-        $data['nasabah'] = $this->db->get('nasabah')->result_array();
+
+        $this->db->select('nasabah.*, sales.nama_sales');
+        $this->db->from('nasabah');
+        $this->db->join('sales', 'sales.id_sales = nasabah.id_sales', 'left');
+
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
+
+        $data['nasabah'] = $this->db->get()->result_array();
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
