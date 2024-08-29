@@ -85,6 +85,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <?= form_open_multipart('data/aktivitasmarketing'); ?>
             <form action="<?= base_url('data/aktivitasmarketing'); ?>" method="post">
                 <div class="modal-body">
                     <?php if ($role_id == 1): ?>
