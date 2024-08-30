@@ -249,7 +249,7 @@ class Data extends CI_Controller
         }
     }
 
-    public function aktivitasmarketingedit($id)
+    public function aktivitasmarketingedit()
     {
         $data['title'] = 'Edit Aktivitas Marketing';
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
@@ -261,7 +261,6 @@ class Data extends CI_Controller
         $this->db->from('aktivitas_marketing');
         $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
         $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
-        $this->db->where('aktivitas_marketing.id', $id);
 
         if ($role_id != 1) {
             $this->db->where('aktivitas_marketing.id_sales', $id_sales);
@@ -337,7 +336,7 @@ class Data extends CI_Controller
                 }
             }
 
-            $this->db->where('id', $id);
+            $this->db->where('id_aktivitas', $this->input->post('id_aktivitas'));
             $this->db->update('aktivitas_marketing', $data_update);
             $this->session->set_flashdata("flashswal", "Diubah");
             redirect('data/aktivitasmarketing');
