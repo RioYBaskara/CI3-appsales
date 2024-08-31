@@ -195,7 +195,6 @@ class Data extends CI_Controller
 
             $hari = $namaHariIndonesia[$hariInggris];
 
-            // upload gambar masi gagal
             $upload_image = $_FILES['image']['name'];
 
             if ($upload_image) {
@@ -354,7 +353,7 @@ class Data extends CI_Controller
     // Closing
     public function closing()
     {
-        $data['title'] = 'Data Aktivitas Marketing';
+        $data['title'] = 'Data Closing';
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $role_id = $this->session->userdata("role_id");
@@ -369,16 +368,16 @@ class Data extends CI_Controller
         $result = $query->row_array();
         $data['roleuser'] = $result['role'];
 
-        $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
-        $this->db->from('aktivitas_marketing');
-        $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
-        $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
+        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('closing');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
 
         if ($role_id != 1) {
-            $this->db->where('aktivitas_marketing.id_sales', $id_sales);
+            $this->db->where('closing.id_sales', $id_sales);
         }
 
-        $data['aktivitas_marketing'] = $this->db->get()->result_array();
+        $data['closing'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
         $this->db->select('nasabah.*, sales.nama_sales');
@@ -394,15 +393,13 @@ class Data extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
-        $this->form_validation->set_rules('aktivitas', 'Aktivitas', 'required');
-        $this->form_validation->set_rules('status', 'Status', 'required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+        $this->form_validation->set_rules('nominal_closing', 'Nominal', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('data/aktivitasmarketing', $data);
+            $this->load->view('data/closing', $data);
             $this->load->view('templates/footer');
         } else {
             $tanggal = $this->input->post('tanggal');
@@ -421,13 +418,12 @@ class Data extends CI_Controller
 
             $hari = $namaHariIndonesia[$hariInggris];
 
-            // upload gambar masi gagal
             $upload_image = $_FILES['image']['name'];
 
             if ($upload_image) {
                 $config['allowed_types'] = 'gif|jpg|png';
                 $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/img/aktivitas/';
+                $config['upload_path'] = './assets/img/closing/';
 
                 $this->load->library('upload', $config);
 
@@ -439,22 +435,20 @@ class Data extends CI_Controller
                         'id_nasabah' => $this->input->post('id_nasabah'),
                         'tanggal' => $tanggal,
                         'hari' => $hari,
-                        'aktivitas' => $this->input->post('aktivitas'),
-                        'status' => $this->input->post('status'),
-                        'keterangan' => $this->input->post('keterangan'),
+                        'nominal_closing' => $this->input->post('nominal_closing'),
                         'upload_foto' => $new_image,
                     ];
 
-                    $this->db->insert('aktivitas_marketing', $data_input);
+                    $this->db->insert('closing', $data_input);
                     $this->session->set_flashdata("flashswal", "Ditambah");
-                    redirect('Data/aktivitasmarketing');
+                    redirect('Data/closing');
 
                 } else {
                     echo $this->upload->display_errors();
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $this->upload->display_errors() . '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button></div>');
-                    redirect('Data/aktivitasmarketing');
+                    redirect('Data/closing');
                 }
             } else {
                 $data_input = [
@@ -462,52 +456,48 @@ class Data extends CI_Controller
                     'id_nasabah' => $this->input->post('id_nasabah'),
                     'tanggal' => $tanggal,
                     'hari' => $hari,
-                    'aktivitas' => $this->input->post('aktivitas'),
-                    'status' => $this->input->post('status'),
-                    'keterangan' => $this->input->post('keterangan'),
+                    'nominal_closing' => $this->input->post('nominal_closing'),
                     'upload_foto' => 'default.jpg',
                 ];
 
-                $this->db->insert('aktivitas_marketing', $data_input);
+                $this->db->insert('closing', $data_input);
                 $this->session->set_flashdata("flashswal", "Ditambah");
-                redirect('Data/aktivitasmarketing');
+                redirect('Data/closing');
             }
         }
     }
 
     public function closingedit()
     {
-        $data['title'] = 'Edit Aktivitas Marketing';
+        $data['title'] = 'Edit Closing';
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $role_id = $this->session->userdata("role_id");
         $id_sales = $data['user']['id_sales'];
 
-        $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
-        $this->db->from('aktivitas_marketing');
-        $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
-        $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
+        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('closing');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
 
         if ($role_id != 1) {
-            $this->db->where('aktivitas_marketing.id_sales', $id_sales);
+            $this->db->where('closing.id_sales', $id_sales);
         }
 
-        $data['aktivitas_marketing'] = $this->db->get()->row_array();
+        $data['closing'] = $this->db->get()->row_array();
         $data['sales'] = $this->db->get('sales')->result_array();
         $data['sales'] = $this->db->get('nasabah')->result_array();
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
-        $this->form_validation->set_rules('aktivitas', 'Aktivitas', 'required');
-        $this->form_validation->set_rules('status', 'Status', 'required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+        $this->form_validation->set_rules('nominal_closing', 'Nominal', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('data/aktivitasmarketing', $data);
+            $this->load->view('data/closing', $data);
             $this->load->view('templates/footer');
         } else {
             $tanggal = $this->input->post('tanggal');
@@ -531,9 +521,7 @@ class Data extends CI_Controller
                 'id_nasabah' => $this->input->post('id_nasabah'),
                 'tanggal' => $tanggal,
                 'hari' => $hari,
-                'aktivitas' => $this->input->post('aktivitas'),
-                'status' => $this->input->post('status'),
-                'keterangan' => $this->input->post('keterangan'),
+                'nominal_closing' => $this->input->post('nominal_closing'),
             ];
 
             $upload_image = $_FILES['image']['name'];
@@ -541,14 +529,14 @@ class Data extends CI_Controller
             if ($upload_image) {
                 $config['allowed_types'] = 'gif|jpg|png';
                 $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/img/aktivitas';
+                $config['upload_path'] = './assets/img/closing';
 
                 $this->load->library('upload', $config);
 
                 if ($this->upload->do_upload('image')) {
-                    $old_image = $data['aktivitas_marketing']['upload_foto'];
+                    $old_image = $data['closing']['upload_foto'];
                     if ($old_image != 'default.jpg') {
-                        unlink(FCPATH . 'assets/img/aktivitas/' . $old_image);
+                        unlink(FCPATH . 'assets/img/closing/' . $old_image);
                     }
 
                     $new_image = $this->upload->data('file_name');
@@ -558,14 +546,14 @@ class Data extends CI_Controller
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $this->upload->display_errors() . '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button></div>');
-                    redirect('data/aktivitasmarketing');
+                    redirect('data/closing');
                 }
             }
 
-            $this->db->where('id_aktivitas', $this->input->post('id_aktivitas'));
-            $this->db->update('aktivitas_marketing', $data_update);
+            $this->db->where('id_closing', $this->input->post('id_closing'));
+            $this->db->update('closing', $data_update);
             $this->session->set_flashdata("flashswal", "Diubah");
-            redirect('data/aktivitasmarketing');
+            redirect('data/closing');
         }
     }
 
