@@ -44,8 +44,8 @@
                             <td><?= $pk['nama_sales']; ?> - <?= $pk['id_sales']; ?></td>
                             <td><?= $pk['nama_nasabah']; ?> - <?= $pk['id_nasabah']; ?></td>
                             <td><?= $pk['no_pks']; ?></td>
-                            <td><?= $pk['tanggal_awal_pks']; ?></td>
-                            <td><?= $pk['tanggal_akhir_pks']; ?></td>
+                            <td><?= date("j F Y", strtotime($pk['tanggal_awal_pks'])); ?></td>
+                            <td><?= date("j F Y", strtotime($pk['tanggal_akhir_pks'])); ?>
                             <td>
                                 <img src="<?= base_url('assets/img/pks/') . $pk['upload_foto']; ?>" alt="Foto Aktivitas"
                                     class="img-thumbnail" style="width: 100px; height: auto;">

@@ -47,7 +47,7 @@
                             <td><?= $akm['nama_sales']; ?> - <?= $akm['id_sales']; ?></td>
                             <td><?= $akm['nama_nasabah']; ?> - <?= $akm['id_nasabah']; ?></td>
                             <td><?= $akm['hari']; ?></td>
-                            <td><?= $akm['tanggal']; ?></td>
+                            <td><?= date("j F Y", strtotime($akm['tanggal'])); ?></td>
                             <td><?= $akm['aktivitas']; ?></td>
                             <td><?= $akm['status']; ?></td>
                             <td><?= $akm['keterangan']; ?></td>
