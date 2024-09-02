@@ -46,7 +46,7 @@
                             <td><?= $cls['nama_nasabah']; ?> - <?= $cls['id_nasabah']; ?></td>
                             <td><?= $cls['hari']; ?></td>
                             <td><?= date("j F Y", strtotime($cls['tanggal'])); ?></td>
-                            <td><?= $cls['nominal_closing']; ?></td>
+                            <td><?= 'Rp ' . number_format($cls['nominal_closing'], 2, ',', '.'); ?></td>
                             <td>
                                 <img src="<?= base_url('assets/img/closing/') . $cls['upload_foto']; ?>" alt="Foto Closing"
                                     class="img-thumbnail" style="width: 100px; height: auto;">
