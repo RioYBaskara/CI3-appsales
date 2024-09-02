@@ -33,7 +33,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="#">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('data'); ?>">
                 <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -56,13 +56,13 @@
             <h5>Data Aplikasi</h5>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <a style="text-decoration: none;" class="button" href="<?= base_url('data/aktivitas'); ?>">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('data/aktivitasmarketing'); ?>">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Data Aktivitas</div>
+                                    Data Aktivitas Marketing</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jumlahaktivitas ?></div>
                             </div>
                             <div class="col-auto">
