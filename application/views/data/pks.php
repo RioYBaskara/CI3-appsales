@@ -19,46 +19,41 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newAktivitas">Add New
-                Aktivitas</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newPKS">Add New
+                PKS</a>
             <table class="table table-hover">
-
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">ID</th>
                         <th scope="col">Sales - ID Sales</th>
                         <th scope="col">Nasabah - ID Nasabah</th>
-                        <th scope="col">Hari</th>
-                        <th scope="col">Tanggal</th>
-                        <th scope="col">Aktivitas</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Keterangan</th>
+                        <th scope="col">No PKS</th>
+                        <th scope="col">Tanggal Awal PKS</th>
+                        <th scope="col">Tanggal Akhir PKS</th>
                         <th scope="col">Foto</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($aktivitas_marketing as $akm): ?>
+                    <?php foreach ($pks as $pk): ?>
                         <tr>
                             <th scope="row"><?= $i; ?></th>
-                            <td><?= $akm['id_aktivitas']; ?></td>
-                            <td><?= $akm['nama_sales']; ?> - <?= $akm['id_sales']; ?></td>
-                            <td><?= $akm['nama_nasabah']; ?> - <?= $akm['id_nasabah']; ?></td>
-                            <td><?= $akm['hari']; ?></td>
-                            <td><?= $akm['tanggal']; ?></td>
-                            <td><?= $akm['aktivitas']; ?></td>
-                            <td><?= $akm['status']; ?></td>
-                            <td><?= $akm['keterangan']; ?></td>
+                            <td><?= $pk['id_pks']; ?></td>
+                            <td><?= $pk['nama_sales']; ?> - <?= $pk['id_sales']; ?></td>
+                            <td><?= $pk['nama_nasabah']; ?> - <?= $pk['id_nasabah']; ?></td>
+                            <td><?= $pk['no_pks']; ?></td>
+                            <td><?= $pk['tanggal_awal_pks']; ?></td>
+                            <td><?= $pk['tanggal_akhir_pks']; ?></td>
                             <td>
-                                <img src="<?= base_url('assets/img/aktivitas/') . $akm['upload_foto']; ?>"
-                                    alt="Foto Aktivitas" class="img-thumbnail" style="width: 100px; height: auto;">
+                                <img src="<?= base_url('assets/img/pks/') . $pk['upload_foto']; ?>" alt="Foto Aktivitas"
+                                    class="img-thumbnail" style="width: 100px; height: auto;">
                             </td>
                             <td>
-                                <a data-toggle="modal" data-target="#modal-edit<?= $akm['id_aktivitas'] ?>"
+                                <a data-toggle="modal" data-target="#modal-edit<?= $pk['id_pks'] ?>"
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
-                                <a href="<?= base_url(); ?>data/aktivitasmarketinghapus/<?= $akm['id_aktivitas']; ?>"
+                                <a href="<?= base_url(); ?>data/pkshapus/<?= $pk['id_pks']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -77,17 +72,17 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="newAktivitas" tabindex="-1" role="dialog" aria-labelledby="newAktivitas" aria-hidden="true">
+<div class="modal fade" id="newPKS" tabindex="-1" role="dialog" aria-labelledby="newPKS" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newAktivitasModalLabel">Add New Aktivitas</h5>
+                <h5 class="modal-title" id="newPKSModalLabel">Add New PKS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?= form_open_multipart('data/aktivitasmarketing'); ?>
-            <form action="<?= base_url('data/aktivitasmarketing'); ?>" method="post">
+            <?= form_open_multipart('data/pks'); ?>
+            <form action="<?= base_url('data/pks'); ?>" method="post">
                 <div class="modal-body">
                     <?php if ($role_id == 1): ?>
                         <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
@@ -116,38 +111,23 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input autocomplete="off" type="date" class="form-control" id="tanggal" name="tanggal">
+                        <input autocomplete="off" type="text" class="form-control" id="no_pks" name="no_pks"
+                            placeholder="Nomor PKS">
                     </div>
                     <div class="form-group">
-                        <select name="aktivitas" id="aktivitas" class="form-control">
-                            <option value="">--Pilih Aktivitas--</option>
-                            <option value="ADMINISTRASI">ADMINISTRASI
-                            </option>
-                            <option value="CALL">CALL
-                            </option>
-                            <option value="VISIT">VISIT
-                            </option>
-                        </select>
+                        <input autocomplete="off" type="date" class="form-control" id="tanggal_awal_pks"
+                            name="tanggal_awal_pks">
                     </div>
                     <div class="form-group">
-                        <select name="status" id="status" class="form-control">
-                            <option value="">--Pilih Status--</option>
-                            <option value="NTB">NTB
-                            </option>
-                            <option value="ETB">ETB
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input autocomplete="off" type="text" class="form-control" id="keterangan" name="keterangan"
-                            placeholder="Keterangan">
+                        <input autocomplete="off" type="date" class="form-control" id="tanggal_akhir_pks"
+                            name="tanggal_akhir_pks">
                     </div>
                     <div class="form-group row">
                         <div class="col-sm">Foto</div>
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <img src="<?= base_url('assets/img/aktivitas/'); ?>default.jpg" alt=""
+                                    <img src="<?= base_url('assets/img/pks/'); ?>default.jpg" alt=""
                                         class="img-thumbnail">
                                 </div>
                                 <div class="col-sm-7">
@@ -171,31 +151,30 @@
 </div>
 
 <?php $no = 0;
-foreach ($aktivitas_marketing as $akm):
+foreach ($pks as $pk):
     $no++; ?>
     <div class="row">
-        <div id="modal-edit<?= $akm['id_aktivitas'] ?>" class="modal fade" tabindex="-1" role="dialog"
-            aria-labelledby="modal-edit<?= $akm['id_aktivitas'] ?>" aria-hidden="true">
+        <div id="modal-edit<?= $pk['id_pks'] ?>" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="modal-edit<?= $pk['id_pks'] ?>" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modal-edit<?= $akm['id_aktivitas'] ?>Label">Edit Data</h5>
+                        <h5 class="modal-title" id="modal-edit<?= $pk['id_pks'] ?>Label">Edit Data</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <?= form_open_multipart('data/aktivitasmarketingedit'); ?>
-                    <form action="<?= base_url('data/aktivitasmarketingedit'); ?>" method="post">
+                    <?= form_open_multipart('data/pksedit'); ?>
+                    <form action="<?= base_url('data/pksedit'); ?>" method="post">
                         <div class="modal-body">
-                            <input type="hidden" readonly value="<?= $akm['id_aktivitas']; ?>" name="id_aktivitas"
-                                class="form-control">
+                            <input type="hidden" readonly value="<?= $pk['id_pks']; ?>" name="id_pks" class="form-control">
                             <?php if ($role_id == 1): ?>
                                 <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
                                 <div class="form-group">
-                                    <label for="aktivitas<?= $akm['id_aktivitas'] ?>" class="col-form-label">Sales:</label>
+                                    <label for="aktivitas<?= $pk['id_pks'] ?>" class="col-form-label">Sales:</label>
                                     <select name="id_sales" id="id_sales" class="form-control">
-                                        <option value="<?= $akm['id_sales'] ?>"><?= $akm['nama_sales'] ?> -
-                                            <?= $akm['id_sales'] ?>
+                                        <option value="<?= $pk['id_sales'] ?>"><?= $pk['nama_sales'] ?> -
+                                            <?= $pk['id_sales'] ?>
                                         </option>
                                         <option value="">--Pilih Sales - ID Sales--</option>
                                         <?php foreach ($sales as $sl): ?>
@@ -210,11 +189,11 @@ foreach ($aktivitas_marketing as $akm):
                                 <input type="hidden" name="id_sales" value="<?= $id_sales ?>">
                             <?php endif; ?>
                             <div class="form-group">
-                                <label for="aktivitas<?= $akm['id_nasabah'] ?>" class="col-form-label">Nama
+                                <label for="pks<?= $pk['id_nasabah'] ?>" class="col-form-label">Nama
                                     Nasabah:</label>
-                                <select name="id_nasabah" id="aktivitas<?= $akm['id_nasabah'] ?>" class="form-control">
-                                    <option value="<?= $akm['id_nasabah'] ?>"><?= $akm['nama_nasabah'] ?> -
-                                        <?= $akm['id_nasabah'] ?>
+                                <select name="id_nasabah" id="pks<?= $pk['id_nasabah'] ?>" class="form-control">
+                                    <option value="<?= $pk['id_nasabah'] ?>"><?= $pk['nama_nasabah'] ?> -
+                                        <?= $pk['id_nasabah'] ?>
                                     </option>
                                     <option value="">--Pilih Nasabah - ID Nasabah--</option>
                                     <?php foreach ($nasabah as $nsb): ?>
@@ -225,50 +204,29 @@ foreach ($aktivitas_marketing as $akm):
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="aktivitas<?= $akm['tanggal'] ?>" class="col-form-label">Tanggal
-                                    Aktivitas:</label>
-                                <input type="date" class="form-control" id="aktivitas<?= $akm['tanggal'] ?>" name="tanggal"
-                                    value="<?= $akm['tanggal'] ?>" placeholder="Masukkan Nama Nasabah" autocomplete="off">
+                                <label for="pks<?= $pk['no_pks'] ?>" class="col-form-label">No PKS:</label>
+                                <input type="text" class="form-control" id="pks<?= $pk['no_pks'] ?>" name="no_pks"
+                                    value="<?= $pk['no_pks'] ?>" placeholder="Masukkan Nomor PKS" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label for="aktivitas<?= $akm['aktivitas'] ?>" class="col-form-label">Aktivitas:</label>
-                                <select name="aktivitas" id="aktivitas<?= $akm['aktivitas'] ?>" class="form-control"
-                                    value="<?= $akm['aktivitas'] ?>">
-                                    <option value="<?= $akm['aktivitas'] ?>"><?= $akm['aktivitas'] ?></option>
-                                    <option value="">--Pilih Aktivitas--</option>
-                                    <option value="ADMINISTRASI">ADMINISTRASI
-                                    </option>
-                                    <option value="CALL">CALL
-                                    </option>
-                                    <option value="VISIT">VISIT
-                                    </option>
-                                </select>
+                                <label for="pks<?= $pk['tanggal_awal_pks'] ?>" class="col-form-label">Tanggal
+                                    Awal PKS:</label>
+                                <input type="date" class="form-control" id="pks<?= $pk['tanggal_awal_pks'] ?>"
+                                    name="tanggal_awal_pks" value="<?= $pk['tanggal_awal_pks'] ?>" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label for="aktivitas<?= $akm['status'] ?>" class="col-form-label">Status:</label>
-                                <select name="status" id="aktivitas<?= $akm['status'] ?>" class="form-control"
-                                    value="<?= $akm['status'] ?>">
-                                    <option value="<?= $akm['status'] ?>"><?= $akm['status'] ?></option>
-                                    <option value="">--Pilih Status--</option>
-                                    <option value="NTB">NTB
-                                    </option>
-                                    <option value="ETB">ETB
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="aktivitas<?= $akm['keterangan'] ?>" class="col-form-label">Keterangan:</label>
-                                <input type="text" class="form-control" id="aktivitas<?= $akm['keterangan'] ?>"
-                                    name="keterangan" value="<?= $akm['keterangan'] ?>" placeholder="Masukkan Keterangan"
-                                    autocomplete="off">
+                                <label for="pks<?= $pk['tanggal_akhir_pks'] ?>" class="col-form-label">Tanggal
+                                    Akhir PKS:</label>
+                                <input type="date" class="form-control" id="pks<?= $pk['tanggal_akhir_pks'] ?>"
+                                    name="tanggal_akhir_pks" value="<?= $pk['tanggal_akhir_pks'] ?>" autocomplete="off">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm">Foto</div>
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-sm-5">
-                                            <img src="<?= base_url('assets/img/aktivitas/') . $akm['upload_foto']; ?>"
-                                                alt="" class="img-thumbnail">
+                                            <img src="<?= base_url('assets/img/pks/') . $pk['upload_foto']; ?>" alt=""
+                                                class="img-thumbnail">
                                         </div>
                                         <div class="col-sm-7">
                                             <div class="custom-file">
