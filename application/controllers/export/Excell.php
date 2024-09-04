@@ -136,7 +136,6 @@ class Excell extends CI_Controller
         $sheet->setCellValue('E1', 'Hari');
         $sheet->setCellValue('F1', 'Tanggal');
         $sheet->setCellValue('G1', 'Nominal');
-        $sheet->setCellValue('H1', 'Foto');
 
         // Ambil data closing dari database
         $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
@@ -156,7 +155,6 @@ class Excell extends CI_Controller
             $sheet->setCellValue('E' . $row, $closing['hari']);
             $sheet->setCellValue('F' . $row, date("j F Y", strtotime($closing['tanggal'])));
             $sheet->setCellValue('G' . $row, 'Rp ' . number_format($closing['nominal_closing'], 2, ',', '.'));
-            $sheet->setCellValue('H' . $row, $closing['upload_foto']); // Untuk file path atau nama file foto
             $row++;
         }
 
