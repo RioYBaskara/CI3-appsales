@@ -15,7 +15,6 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Excell extends CI_Controller
 {
-
     public function cobaexport()
     {
         $spreadsheet = new Spreadsheet(); // instantiate Spreadsheet
