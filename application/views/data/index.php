@@ -22,7 +22,14 @@
                 </div>
             <?php endif; ?>
 
-            <?= $this->session->flashdata('message'); ?>
+            <?php if ($this->session->flashdata('pesan')): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $this->session->flashdata('pesan'); ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
 
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newMenuNasabah">Add New
                 Nasabah</a>

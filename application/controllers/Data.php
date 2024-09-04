@@ -120,10 +120,43 @@ class Data extends CI_Controller
 
     public function nasabahhapus($id_nasabah)
     {
+        // Check if the ID exists in the related tables
+        $this->db->from('aktivitas_marketing');
+        $this->db->where('id_nasabah', $id_nasabah);
+        $result = $this->db->count_all_results();
+
+        if ($result > 0) {
+            $this->session->set_flashdata("pesan", "ID Nasabah digunakan di Aktivitas Marketing dan tidak bisa dihapus.");
+            redirect('Data');  // Redirect to a page where the message can be displayed
+            return;
+        }
+
+        $this->db->from('closing');
+        $this->db->where('id_nasabah', $id_nasabah);
+        $result = $this->db->count_all_results();
+
+        if ($result > 0) {
+            $this->session->set_flashdata("pesan", "ID Nasabah digunakan di Closing dan tidak bisa dihapus.");
+            redirect('Data');  // Redirect to a page where the message can be displayed
+            return;
+        }
+
+        $this->db->from('pks');
+        $this->db->where('id_nasabah', $id_nasabah);
+        $result = $this->db->count_all_results();
+
+        if ($result > 0) {
+            $this->session->set_flashdata("pesan", "ID Nasabah digunakan di PKS dan tidak bisa dihapus.");
+            redirect('Data');  // Redirect to a page where the message can be displayed
+            return;
+        }
+
+        // If no records are found, proceed with deletion
         $this->db->delete("nasabah", ["id_nasabah" => $id_nasabah]);
-        $this->session->set_flashdata("flashswal", "Dihapus");
+        $this->session->set_flashdata("flashwal", "Dihapus");
         redirect('Data');
     }
+
 
     // Aktivitas Marketing
     public function aktivitasmarketing()

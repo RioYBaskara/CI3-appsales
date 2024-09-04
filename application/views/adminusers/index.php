@@ -107,7 +107,7 @@
                             placeholder="Email">
                     </div>
                     <div class="form-group d-none">
-                        <input autocomplete="off" disabled value="123" type="text" class="form-control" id="password"
+                        <input autocomplete="off" value="123" type="text" class="form-control" id="password"
                             name="password" placeholder="Password">
                     </div>
                     <div class="form-group">
