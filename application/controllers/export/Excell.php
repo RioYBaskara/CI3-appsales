@@ -21,8 +21,10 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+
         $role_id = $this->session->userdata("role_id");
-        $id_sales = $this->session->userdata('id_sales');
+        $id_sales = $data['user']['id_sales'];
 
         // Ambil data nasabah dari database
         $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
@@ -77,8 +79,10 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+
         $role_id = $this->session->userdata("role_id");
-        $id_sales = $this->session->userdata('id_sales');
+        $id_sales = $data['user']['id_sales'];
 
         // Konfigurasi Query
         $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
@@ -136,8 +140,10 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+
         $role_id = $this->session->userdata("role_id");
-        $id_sales = $this->session->userdata('id_sales');
+        $id_sales = $data['user']['id_sales'];
 
         // query
         $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
@@ -191,8 +197,10 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+
         $role_id = $this->session->userdata("role_id");
-        $id_sales = $this->session->userdata('id_sales');
+        $id_sales = $data['user']['id_sales'];
 
         // query
         $this->db->select('pks.*, nasabah.nama_nasabah, sales.nama_sales');
