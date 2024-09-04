@@ -11,6 +11,11 @@
     <div class="row">
         <div class="col-12">
             <h5>Data Personel</h5>
+            <?php if ($this->session->flashdata('message')): ?>
+                <div class="alert alert-warning">
+                    <?= $this->session->flashdata('message'); ?>
+                </div>
+            <?php endif; ?>
             <?php if (validation_errors()): ?>
                 <div class="alert alert-danger" role="alert">
                     <?= validation_errors() ?>

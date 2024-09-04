@@ -194,9 +194,17 @@ class Admin extends CI_Controller
 
     public function saleshapus($id)
     {
-        $this->db->delete("sales", ["id_sales" => $id]);
-        $this->session->set_flashdata("flashswal", "Dihapus");
-        redirect('admin/sales');
+        $this->db->where('id_sales', $id);
+        $user_count = $this->db->count_all_results('users');
+
+        if ($user_count > 0) {
+            $this->session->set_flashdata('message', 'Data gagal dihapus! Terdapat data terkait.');
+            redirect('admin/sales');
+        } else {
+            $this->db->delete('sales', ['id_sales' => $id]);
+            $this->session->set_flashdata('message', 'Data berhasil dihapus!');
+            redirect('admin/sales');
+        }
     }
 
     public function users()
