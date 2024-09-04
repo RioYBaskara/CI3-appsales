@@ -60,6 +60,66 @@ class Excell extends CI_Controller
         $writer->save('php://output');
     }
 
+    public function exportAktivitasMarketing()
+    {
+        $this->load->library('Spreadsheet'); // Pastikan PhpSpreadsheet sudah di-load
+
+        $role_id = $this->session->userdata("role_id");
+        $id_sales = $this->session->userdata('id_sales');
+
+        // Konfigurasi Query
+        $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('aktivitas_marketing');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
+
+        if ($role_id != 1) {
+            $this->db->where('aktivitas_marketing.id_sales', $id_sales);
+        }
+
+        $aktivitasMarketing = $this->db->get()->result_array();
+
+        // Inisialisasi Spreadsheet
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set Header
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'ID Aktivitas');
+        $sheet->setCellValue('C1', 'Nama Sales - ID Sales');
+        $sheet->setCellValue('D1', 'Nama Nasabah - ID Nasabah');
+        $sheet->setCellValue('E1', 'Hari');
+        $sheet->setCellValue('F1', 'Tanggal');
+        $sheet->setCellValue('G1', 'Aktivitas');
+        $sheet->setCellValue('H1', 'Status');
+        $sheet->setCellValue('I1', 'Keterangan');
+
+        // Isi Data
+        $row = 2;
+        $no = 1;
+        foreach ($aktivitasMarketing as $akm) {
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, $akm['id_aktivitas']);
+            $sheet->setCellValue('C' . $row, $akm['nama_sales'] . ' - ' . $akm['id_sales']);
+            $sheet->setCellValue('D' . $row, $akm['nama_nasabah'] . ' - ' . $akm['id_nasabah']);
+            $sheet->setCellValue('E' . $row, $akm['hari']);
+            $sheet->setCellValue('F' . $row, date("j F Y", strtotime($akm['tanggal'])));
+            $sheet->setCellValue('G' . $row, $akm['aktivitas']);
+            $sheet->setCellValue('H' . $row, $akm['status']);
+            $sheet->setCellValue('I' . $row, $akm['keterangan']);
+            $row++;
+        }
+
+        // Konfigurasi Download
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Data_Aktivitas_Marketing.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+    }
+
+
     public function cobaexport()
     {
         $spreadsheet = new Spreadsheet(); // instantiate Spreadsheet
