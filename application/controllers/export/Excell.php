@@ -185,25 +185,58 @@ class Excell extends CI_Controller
         $writer->save('php://output');
     }
 
-    public function cobaexport()
+    public function exportPKS()
     {
-        $spreadsheet = new Spreadsheet(); // instantiate Spreadsheet
-
+        // Load library PhpSpreadsheet
+        $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        // manually set table data value
-        $sheet->setCellValue('A1', 'Gipsy Danger');
-        $sheet->setCellValue('A2', 'Gipsy Avenger');
-        $sheet->setCellValue('A3', 'Striker Eureka');
+        $role_id = $this->session->userdata("role_id");
+        $id_sales = $this->session->userdata('id_sales');
 
-        $writer = new Xlsx($spreadsheet); // instantiate Xlsx
+        // query
+        $this->db->select('pks.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('pks');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = pks.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = pks.id_sales', 'left');
 
-        $filename = 'list-of-dummy'; // set filename for excel file to be exported
+        if ($role_id != 1) {
+            $this->db->where('pks.id_sales', $id_sales);
+        }
 
-        header('Content-Type: application/vnd.ms-excel'); // generate excel file
-        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        $dataPKS = $this->db->get()->result_array();
+
+        // Nama Header Kolom
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'ID');
+        $sheet->setCellValue('C1', 'Sales - ID Sales');
+        $sheet->setCellValue('D1', 'Nasabah - ID Nasabah');
+        $sheet->setCellValue('E1', 'No PKS');
+        $sheet->setCellValue('F1', 'Tanggal Awal PKS');
+        $sheet->setCellValue('G1', 'Tanggal Akhir PKS');
+
+        // Isi data ke baris Excel mulai dari baris kedua
+        $row = 2;
+        $no = 1;
+        foreach ($dataPKS as $pks) {
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, $pks['id_pks']);
+            $sheet->setCellValue('C' . $row, $pks['nama_sales'] . ' - ' . $pks['id_sales']);
+            $sheet->setCellValue('D' . $row, $pks['nama_nasabah'] . ' - ' . $pks['id_nasabah']);
+            $sheet->setCellValue('E' . $row, $pks['no_pks']);
+            $sheet->setCellValue('F' . $row, date("j F Y", strtotime($pks['tanggal_awal_pks'])));
+            $sheet->setCellValue('G' . $row, date("j F Y", strtotime($pks['tanggal_akhir_pks'])));
+            $row++;
+        }
+
+        // Konfigurasi Download
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'Data_PKS_' . date('Ymd') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        $writer->save('php://output');	// download file 
+        $writer->save('php://output');
     }
 }
