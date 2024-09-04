@@ -15,6 +15,12 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Excell extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        is_logged_in_tanpa_rbac();
+    }
+
     public function exportNasabah()
     {
         // Load library PhpSpreadsheet

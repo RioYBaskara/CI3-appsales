@@ -24,6 +24,14 @@ function is_logged_in()
     }
 }
 
+function is_logged_in_tanpa_rbac()
+{
+    $ci = get_instance();
+    if (!$ci->session->userdata("email")) {
+        redirect("auth");
+    }
+}
+
 function check_acces($role_id, $menu_id)
 {
     $ci = get_instance();
