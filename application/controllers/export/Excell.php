@@ -21,6 +21,20 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        $role_id = $this->session->userdata("role_id");
+        $id_sales = $this->session->userdata('id_sales');
+
+        // Ambil data nasabah dari database
+        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
+        $this->db->from('nasabah');
+        $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
+
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
+
+        $dataNasabah = $this->db->get()->result_array();
+
         // Nama Header Kolom
         $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
         $sheet->setCellValue('B1', 'ID Nasabah');
@@ -28,12 +42,6 @@ class Excell extends CI_Controller
         $sheet->setCellValue('D1', 'No Rekening');
         $sheet->setCellValue('E1', 'ID Sales');
         $sheet->setCellValue('F1', 'Nama Sales');
-
-        // Ambil data nasabah dari database
-        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
-        $this->db->from('nasabah');
-        $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
-        $dataNasabah = $this->db->get()->result_array();
 
         // Isi data ke baris Excel mulai dari baris kedua
         $row = 2;
