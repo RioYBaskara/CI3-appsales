@@ -22,11 +22,12 @@ class Excell extends CI_Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Nama Header Kolom
-        $sheet->setCellValue('A1', 'ID Nasabah');
-        $sheet->setCellValue('B1', 'Nama Nasabah');
-        $sheet->setCellValue('C1', 'No Rekening');
-        $sheet->setCellValue('D1', 'ID Sales');
-        $sheet->setCellValue('E1', 'Nama Sales');
+        $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
+        $sheet->setCellValue('B1', 'ID Nasabah');
+        $sheet->setCellValue('C1', 'Nama Nasabah');
+        $sheet->setCellValue('D1', 'No Rekening');
+        $sheet->setCellValue('E1', 'ID Sales');
+        $sheet->setCellValue('F1', 'Nama Sales');
 
         // Ambil data nasabah dari database
         $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
@@ -36,12 +37,14 @@ class Excell extends CI_Controller
 
         // Isi data ke baris Excel mulai dari baris kedua
         $row = 2;
+        $no = 1;
         foreach ($dataNasabah as $nasabah) {
-            $sheet->setCellValue('A' . $row, $nasabah['id_nasabah']);
-            $sheet->setCellValue('B' . $row, $nasabah['nama_nasabah']);
-            $sheet->setCellValue('C' . $row, $nasabah['no_rekening']);
-            $sheet->setCellValue('D' . $row, $nasabah['id_sales']);
-            $sheet->setCellValue('E' . $row, $nasabah['nama_sales']);
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, $nasabah['id_nasabah']);
+            $sheet->setCellValue('C' . $row, $nasabah['nama_nasabah']);
+            $sheet->setCellValue('D' . $row, $nasabah['no_rekening']);
+            $sheet->setCellValue('E' . $row, $nasabah['id_sales']);
+            $sheet->setCellValue('F' . $row, $nasabah['nama_sales']);
             $row++;
         }
 
