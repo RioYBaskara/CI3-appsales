@@ -128,6 +128,21 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
+        $role_id = $this->session->userdata("role_id");
+        $id_sales = $this->session->userdata('id_sales');
+
+        // query
+        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('closing');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
+
+        if ($role_id != 1) {
+            $this->db->where('closing.id_sales', $id_sales);
+        }
+
+        $dataClosing = $this->db->get()->result_array();
+
         // Nama Header Kolom
         $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
         $sheet->setCellValue('B1', 'ID Closing');
@@ -136,13 +151,6 @@ class Excell extends CI_Controller
         $sheet->setCellValue('E1', 'Hari');
         $sheet->setCellValue('F1', 'Tanggal');
         $sheet->setCellValue('G1', 'Nominal');
-
-        // Ambil data closing dari database
-        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
-        $this->db->from('closing');
-        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
-        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
-        $dataClosing = $this->db->get()->result_array();
 
         // Isi data ke baris Excel mulai dari baris kedua
         $row = 2;
@@ -158,18 +166,14 @@ class Excell extends CI_Controller
             $row++;
         }
 
-        // Buat objek writer untuk menyimpan Excel dalam format Xlsx
+        // Konfigurasi Download
         $writer = new Xlsx($spreadsheet);
-
-        // Set nama file untuk didownload
         $filename = 'Data_Closing_' . date('Ymd') . '.xlsx';
 
-        // Header untuk download file Excel
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        // Simpan file Excel ke output
         $writer->save('php://output');
     }
 
