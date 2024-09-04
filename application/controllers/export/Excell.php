@@ -122,6 +122,58 @@ class Excell extends CI_Controller
         $writer->save('php://output');
     }
 
+    public function exportClosing()
+    {
+        // Load library PhpSpreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Nama Header Kolom
+        $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
+        $sheet->setCellValue('B1', 'ID Closing');
+        $sheet->setCellValue('C1', 'Sales - ID Sales');
+        $sheet->setCellValue('D1', 'Nasabah - ID Nasabah');
+        $sheet->setCellValue('E1', 'Hari');
+        $sheet->setCellValue('F1', 'Tanggal');
+        $sheet->setCellValue('G1', 'Nominal');
+        $sheet->setCellValue('H1', 'Foto');
+
+        // Ambil data closing dari database
+        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+        $this->db->from('closing');
+        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
+        $dataClosing = $this->db->get()->result_array();
+
+        // Isi data ke baris Excel mulai dari baris kedua
+        $row = 2;
+        $no = 1;
+        foreach ($dataClosing as $closing) {
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, $closing['id_closing']);
+            $sheet->setCellValue('C' . $row, $closing['nama_sales'] . ' - ' . $closing['id_sales']);
+            $sheet->setCellValue('D' . $row, $closing['nama_nasabah'] . ' - ' . $closing['id_nasabah']);
+            $sheet->setCellValue('E' . $row, $closing['hari']);
+            $sheet->setCellValue('F' . $row, date("j F Y", strtotime($closing['tanggal'])));
+            $sheet->setCellValue('G' . $row, 'Rp ' . number_format($closing['nominal_closing'], 2, ',', '.'));
+            $sheet->setCellValue('H' . $row, $closing['upload_foto']); // Untuk file path atau nama file foto
+            $row++;
+        }
+
+        // Buat objek writer untuk menyimpan Excel dalam format Xlsx
+        $writer = new Xlsx($spreadsheet);
+
+        // Set nama file untuk didownload
+        $filename = 'Data_Closing_' . date('Ymd') . '.xlsx';
+
+        // Header untuk download file Excel
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        // Simpan file Excel ke output
+        $writer->save('php://output');
+    }
 
     public function cobaexport()
     {
