@@ -62,7 +62,9 @@ class Excell extends CI_Controller
 
     public function exportAktivitasMarketing()
     {
-        $this->load->library('Spreadsheet'); // Pastikan PhpSpreadsheet sudah di-load
+        // Inisialisasi Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
         $role_id = $this->session->userdata("role_id");
         $id_sales = $this->session->userdata('id_sales');
@@ -78,10 +80,6 @@ class Excell extends CI_Controller
         }
 
         $aktivitasMarketing = $this->db->get()->result_array();
-
-        // Inisialisasi Spreadsheet
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
 
         // Set Header
         $sheet->setCellValue('A1', 'No');
@@ -111,9 +109,11 @@ class Excell extends CI_Controller
         }
 
         // Konfigurasi Download
-        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'Data_Aktivitas_Marketing_' . date('Ymd') . '.xlsx';
+
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="Data_Aktivitas_Marketing.xlsx"');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
         $writer->save('php://output');
