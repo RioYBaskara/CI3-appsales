@@ -48,7 +48,7 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -97,7 +97,7 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
