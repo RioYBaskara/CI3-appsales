@@ -44,7 +44,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 1; ?>
                     <?php foreach ($aktivitas_marketing as $akm): ?>
                         <tr>
                             <th><?= ++$start; ?></th>
@@ -67,7 +66,6 @@
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
-                        <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>

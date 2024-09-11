@@ -51,6 +51,7 @@ class Data extends CI_Controller
         $this->pagination->initialize($config);
 
         // Get the page number from the URL, default to 0 if not set or invalid
+        $data['start'] = $this->uri->segment(3);
         $page = $this->uri->segment(3);
         $page = (is_numeric($page) && $page !== null) ? $page : 0; // Ensure $page is numeric and not null
 

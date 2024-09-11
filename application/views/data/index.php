@@ -46,10 +46,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 1; ?>
                     <?php foreach ($nasabah as $nsb): ?>
                         <tr>
-                            <th scope="row"><?= $i; ?></th>
+                            <th><?= ++$start; ?></th>
                             <td><?= $nsb['id_nasabah']; ?></td>
                             <td><?= $nsb['nama_sales']; ?> - <?= $nsb['id_sales']; ?></td>
                             <td><?= $nsb['nama_nasabah']; ?></td>
@@ -61,7 +60,6 @@
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
-                        <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
