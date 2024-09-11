@@ -77,7 +77,9 @@ class Data extends CI_Controller
         // Form validation rules
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
+            'is_unique' => 'Nomor Rekening telah terdaftar!'
+        ]);
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -126,7 +128,9 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
+            'is_unique' => 'Nomor Rekening telah terdaftar!'
+        ]);
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -725,7 +729,9 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required');
+        $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required|numeric|is_unique[pks.no_pks]', [
+            'is_unique' => 'Nomor PKS telah terdaftar!'
+        ]);
         $this->form_validation->set_rules('tanggal_awal_pks', 'Tanggal Awal PKS', 'required');
         $this->form_validation->set_rules('tanggal_akhir_pks', 'Tanggal Akhir PKS', 'required');
 
@@ -808,7 +814,9 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required');
+        $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required|numeric|is_unique[pks.no_pks]', [
+            'is_unique' => 'Nomor PKS telah terdaftar!'
+        ]);
         $this->form_validation->set_rules('tanggal_awal_pks', 'Tanggal Awal PKS', 'required');
         $this->form_validation->set_rules('tanggal_akhir_pks', 'Tanggal Akhir PKS', 'required');
 
