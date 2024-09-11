@@ -47,7 +47,7 @@
                     <?php $i = 1; ?>
                     <?php foreach ($aktivitas_marketing as $akm): ?>
                         <tr>
-                            <th scope="row"><?= $i; ?></th>
+                            <th><?= ++$start; ?></th>
                             <td><?= $akm['id_aktivitas']; ?></td>
                             <td><?= $akm['nama_sales']; ?> - <?= $akm['id_sales']; ?></td>
                             <td><?= $akm['nama_nasabah']; ?> - <?= $akm['id_nasabah']; ?></td>
