@@ -63,7 +63,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <?= $pagination; ?>
+            <?= $this->pagination->create_links(); ?>
         </div>
     </div>
 

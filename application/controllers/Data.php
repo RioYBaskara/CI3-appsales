@@ -10,6 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  @property session $session
  *  @property upload $upload
  *  @property pagination $pagination
+ *  @property uri $uri
  */
 
 class Data extends CI_Controller
@@ -38,24 +39,24 @@ class Data extends CI_Controller
 
         $data['roleuser'] = $result['role'];
 
-        // Load Pagination Library
-        $this->load->library('pagination');
+        // Konfigurasi Pagination
+        $config['base_url'] = base_url('Data/index');
+        $this->db->from('nasabah');
 
-        // Pagination Configuration
-        $config['base_url'] = base_url('Data/index');  // Base URL for pagination
-        $config['total_rows'] = $this->db->count_all('nasabah');  // Total number of records
-        $config['per_page'] = 6;  // Number of records per page
-        $config['uri_segment'] = 3;  // The URI segment to detect the page number
+        // Jika role_id bukan admin (1), hanya tampilkan data aktivitas untuk sales terkait
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
 
-        // Initialize pagination with the config
+        $config['total_rows'] = $this->db->count_all_results();
+        $config['per_page'] = 6; // Sesuaikan dengan jumlah yang ingin ditampilkan per halaman
+        $config['uri_segment'] = 3;
+
         $this->pagination->initialize($config);
 
-        // Get the page number from the URL, default to 0 if not set or invalid
         $data['start'] = $this->uri->segment(3);
-        $page = $this->uri->segment(3);
-        $page = (is_numeric($page) && $page !== null) ? $page : 0; // Ensure $page is numeric and not null
 
-        // Fetch data with limit and offset
+        // Mengambil Data dengan Limit untuk Pagination
         $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
@@ -64,22 +65,13 @@ class Data extends CI_Controller
             $this->db->where('nasabah.id_sales', $id_sales);
         }
 
-        // Apply limit and offset for pagination
-        $this->db->limit($config['per_page'], $page);
+        $this->db->limit($config['per_page'], $data['start']);
         $data['nasabah'] = $this->db->get()->result_array();
-
-        // Get sales data
         $data['sales'] = $this->db->get('sales')->result_array();
 
-        // Pagination links
-        $data['pagination'] = $this->pagination->create_links();
-
-        // Form validation rules
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
-            'is_unique' => 'Nomor Rekening telah terdaftar!'
-        ]);
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
