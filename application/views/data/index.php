@@ -65,6 +65,7 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?= $pagination; ?>
         </div>
     </div>
 
@@ -92,7 +93,8 @@
                         <select name="id_sales" id="id_sales" class="form-control">
                             <option value="">--Pilih Sales - ID Sales--</option>
                             <?php foreach ($sales as $sl): ?>
-                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> - <?= $sl['id_sales'] ?>
+                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> -
+                                    <?= $sl['id_sales'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
