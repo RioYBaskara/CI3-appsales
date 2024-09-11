@@ -41,10 +41,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 1; ?>
                     <?php foreach ($pks as $pk): ?>
                         <tr>
-                            <th scope="row"><?= $i; ?></th>
+                            <th><?= ++$start; ?></th>
                             <td><?= $pk['id_pks']; ?></td>
                             <td><?= $pk['nama_sales']; ?> - <?= $pk['id_sales']; ?></td>
                             <td><?= $pk['nama_nasabah']; ?> - <?= $pk['id_nasabah']; ?></td>
@@ -62,10 +61,10 @@
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
-                        <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?= $this->pagination->create_links(); ?>
         </div>
     </div>
 
