@@ -42,10 +42,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 1; ?>
                     <?php foreach ($closing as $cls): ?>
                         <tr>
-                            <th scope="row"><?= $i; ?></th>
+                            <th><?= ++$start; ?></th>
                             <td><?= $cls['id_closing']; ?></td>
                             <td><?= $cls['nama_sales']; ?> - <?= $cls['id_sales']; ?></td>
                             <td><?= $cls['nama_nasabah']; ?> - <?= $cls['id_nasabah']; ?></td>
@@ -63,10 +62,11 @@
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
-                        <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?= $this->pagination->create_links(); ?>
+
         </div>
     </div>
 

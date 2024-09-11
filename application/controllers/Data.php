@@ -187,6 +187,7 @@ class Data extends CI_Controller
     }
 
 
+    // Aktivitas Marketing
     public function aktivitasmarketing()
     {
         $data['title'] = 'Data Aktivitas Marketing';
@@ -447,6 +448,24 @@ class Data extends CI_Controller
         $result = $query->row_array();
         $data['roleuser'] = $result['role'];
 
+        // Konfigurasi Pagination
+        $config['base_url'] = base_url('Data/closing');
+        $this->db->from('closing');
+
+        // Jika role_id bukan admin (1), hanya tampilkan data aktivitas untuk sales terkait
+        if ($role_id != 1) {
+            $this->db->where('closing.id_sales', $id_sales);
+        }
+
+        $config['total_rows'] = $this->db->count_all_results();
+        $config['per_page'] = 6; // Sesuaikan dengan jumlah yang ingin ditampilkan per halaman
+        $config['uri_segment'] = 3;
+
+        $this->pagination->initialize($config);
+
+        $data['start'] = $this->uri->segment(3);
+
+        // Mengambil Data dengan Limit untuk Pagination
         $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
         $this->db->from('closing');
         $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
@@ -456,6 +475,7 @@ class Data extends CI_Controller
             $this->db->where('closing.id_sales', $id_sales);
         }
 
+        $this->db->limit($config['per_page'], $data['start']);
         $data['closing'] = $this->db->get()->result_array();
         $data['sales'] = $this->db->get('sales')->result_array();
 
