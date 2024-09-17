@@ -41,6 +41,18 @@ class Data extends CI_Controller
 
         $data['roleuser'] = $result['role'];
 
+        // Ambil data nasabah yang dipinned
+        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.is_pinned, nasabah.id_sales, sales.nama_sales AS nama_sales');
+        $this->db->from('nasabah');
+        $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
+        $this->db->where('nasabah.is_pinned', 1);
+
+        if ($role_id != 1) {
+            $this->db->where('nasabah.id_sales', $id_sales);
+        }
+
+        $data['pinned_nasabah'] = $this->db->get()->result_array();
+
         // Konfigurasi Pagination
         $config['base_url'] = base_url('Data/index');
         $this->db->from('nasabah');
@@ -59,13 +71,14 @@ class Data extends CI_Controller
         $data['start'] = $this->uri->segment(3);
 
         // Mengambil Data dengan Limit untuk Pagination
-        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
+        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.is_pinned, nasabah.id_sales, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
 
         if ($role_id != 1) {
             $this->db->where('nasabah.id_sales', $id_sales);
         }
+        $this->db->where('nasabah.is_pinned', 0); // Hanya tampilkan data yang tidak dipinned
         $this->db->order_by('id_nasabah', 'DESC');
 
         $this->db->limit($config['per_page'], $data['start']);
@@ -93,6 +106,20 @@ class Data extends CI_Controller
             redirect('Data');
         }
     }
+
+    public function pinNasabah()
+    {
+        $id_nasabah = $this->input->post('id_nasabah');
+        $is_pinned = $this->input->post('is_pinned');
+
+        // Update status is_pinned
+        $this->db->set('is_pinned', $is_pinned);
+        $this->db->where('id_nasabah', $id_nasabah);
+        $this->db->update('nasabah');
+
+        echo json_encode(['status' => 'success']);
+    }
+
 
     public function nasabahedit()
     {

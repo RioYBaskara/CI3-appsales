@@ -76,6 +76,31 @@
             }
         });
     });
+
+    $(document).ready(function () {
+        $('.pin-button').on('click', function (e) {
+            e.preventDefault();
+
+            var nasabahId = $(this).data('id');
+            var status = $(this).data('status'); // Status sekarang (0/1)
+
+            $.ajax({
+                url: '<?= base_url("data/pinNasabah"); ?>',
+                type: 'POST',
+                data: {
+                    id_nasabah: nasabahId,
+                    is_pinned: status == 1 ? 0 : 1 // Toggle status (pin/unpin)
+                },
+                success: function (response) {
+                    location.reload(); // Reload halaman setelah sukses
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+
 </script>
 
 </body>

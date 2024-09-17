@@ -33,8 +33,33 @@
 
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newMenuNasabah">Add New
                 Nasabah</a>
-            <table class="table table-hover">
 
+            <!-- Tabel Nasabah Pinned -->
+            <?php if (!empty($pinned_nasabah)): ?>
+                <h3>Pinned Nasabah</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Nasabah</th>
+                            <th>No Rekening</th>
+                            <th>Sales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($pinned_nasabah as $pn): ?>
+                            <tr>
+                                <td><?= $pn['id_nasabah']; ?></td>
+                                <td><?= $pn['nama_nasabah']; ?></td>
+                                <td><?= $pn['no_rekening']; ?></td>
+                                <td><?= $pn['nama_sales']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -58,6 +83,11 @@
                                     class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
                                 <a href="<?= base_url(); ?>data/nasabahhapus/<?= $nsb['id_nasabah']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
+                                <button
+                                    class="btn btn-sm btn-<?= $nsb['is_pinned'] ? 'warning' : 'secondary'; ?> pin-button"
+                                    data-id="<?= $nsb['id_nasabah']; ?>" data-status="<?= $nsb['is_pinned']; ?>">
+                                    <?= $nsb['is_pinned'] ? 'Unpin' : 'Pin'; ?>
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
