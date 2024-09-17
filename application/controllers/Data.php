@@ -228,6 +228,7 @@ class Data extends CI_Controller
         if ($role_id != 1) {
             $this->db->where('aktivitas_marketing.id_sales', $id_sales);
         }
+        $this->db->order_by('id_aktivitas', 'DESC');
 
         $this->db->limit($config['per_page'], $data['start']);
         $data['aktivitas_marketing'] = $this->db->get()->result_array();
@@ -471,6 +472,7 @@ class Data extends CI_Controller
         if ($role_id != 1) {
             $this->db->where('closing.id_sales', $id_sales);
         }
+        $this->db->order_by('id_closing', 'DESC');
 
         $this->db->limit($config['per_page'], $data['start']);
         $data['closing'] = $this->db->get()->result_array();
@@ -705,6 +707,7 @@ class Data extends CI_Controller
         if ($role_id != 1) {
             $this->db->where('pks.id_sales', $id_sales);
         }
+        $this->db->order_by('id_pks', 'DESC');
 
         $this->db->limit($config['per_page'], $data['start']);
         $data['pks'] = $this->db->get()->result_array();
