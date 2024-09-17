@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2024 at 05:48 AM
+-- Generation Time: Sep 17, 2024 at 05:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -39,19 +39,6 @@ CREATE TABLE `aktivitas_marketing` (
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `aktivitas_marketing`
---
-
-INSERT INTO `aktivitas_marketing` (`id_aktivitas`, `id_sales`, `id_nasabah`, `hari`, `tanggal`, `aktivitas`, `status`, `keterangan`, `upload_foto`) VALUES
-(2, 1, 2, 'Rabu', '2024-08-28', 'CALL', 'ETB', 'solatasar', 'hqdefault.jpg'),
-(3, 2, 4, 'Rabu', '2024-08-28', 'CALL', 'NTB', 'Sembahyang', 'alienhehe.jpg'),
-(4, 1, 2, 'Rabu', '2024-08-28', 'VISIT', 'ETB', 'solat', 'default.jpg'),
-(6, 1, 4, 'Kamis', '2024-08-29', 'ADMINISTRASI', 'NTB', 'tes', 'default.jpg'),
-(7, 1, 4, 'Kamis', '2024-08-29', 'CALL', 'ETB', 'asdadasd', 'default.jpg'),
-(9, 2, 4, 'Kamis', '2024-08-29', 'CALL', 'ETB', 'addumda', 'default.jpg'),
-(11, 2, 4, 'Selasa', '2024-08-27', 'CALL', 'ETB', 'kjnsdks', 'btn_favicon1.png'),
-(12, 1, 2, 'Rabu', '2024-09-11', 'ADMINISTRASI', 'NTB', 'wfewf', 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -69,18 +56,6 @@ CREATE TABLE `closing` (
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `closing`
---
-
-INSERT INTO `closing` (`id_closing`, `id_sales`, `id_nasabah`, `hari`, `tanggal`, `nominal_closing`, `upload_foto`) VALUES
-(3, 1, 2, 'Senin', '2024-09-02', 500000.00, 'default.jpg'),
-(4, 1, 2, 'Rabu', '2024-09-11', 123123.00, 'default.jpg'),
-(5, 1, 2, 'Senin', '2024-09-09', 22222222.00, 'default.jpg'),
-(6, 1, 2, 'Minggu', '2024-09-22', 9999999999999.99, 'default.jpg'),
-(7, 1, 2, 'Rabu', '2024-09-11', 200000.00, 'default.jpg'),
-(8, 1, 2, 'Rabu', '2024-09-04', 5000000000.00, 'default.jpg'),
-(9, 1, 2, 'Minggu', '2024-09-01', 250000.00, 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -95,22 +70,6 @@ CREATE TABLE `nasabah` (
   `no_rekening` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `nasabah`
---
-
-INSERT INTO `nasabah` (`id_nasabah`, `id_sales`, `nama_nasabah`, `no_rekening`) VALUES
-(2, 1, 'adminnasabah', '11223344'),
-(4, 2, 'nasabahrio', '11111111'),
-(5, 1, 'Simgggaaa', '12313123'),
-(6, 1, 'dumnasadmin1', '123123'),
-(7, 1, 'dumnasadmin2', '12312313'),
-(8, 1, 'dumnasadmin3', '534534345'),
-(9, 1, 'dumnasadmin4', '63413412'),
-(10, 1, 'dumnasadmin5', '6234234234'),
-(11, 1, 'dumnasadmin6', '352352344'),
-(12, 1, 'dumnasadmin7', '5125123123'),
-(13, 1, 'dumnasadmin8', '6234234234');
 
 -- --------------------------------------------------------
 
@@ -128,18 +87,6 @@ CREATE TABLE `pks` (
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `pks`
---
-
-INSERT INTO `pks` (`id_pks`, `id_sales`, `id_nasabah`, `no_pks`, `tanggal_awal_pks`, `tanggal_akhir_pks`, `upload_foto`) VALUES
-(3, 2, 4, '123123', '2024-09-02', '2024-09-02', 'default.jpg'),
-(4, 1, 2, '12312312', '2024-09-11', '2024-09-11', 'default.jpg'),
-(5, 1, 2, '123123', '2024-09-11', '2024-09-11', 'default.jpg'),
-(6, 1, 2, '623423412', '2024-09-11', '2024-09-11', 'default.jpg'),
-(7, 1, 2, '5234234', '2024-09-11', '2024-09-11', 'default.jpg'),
-(8, 1, 2, '5623432', '2024-09-11', '2024-09-11', 'default.jpg'),
-(9, 1, 2, '51312322', '2024-09-11', '2024-09-11', 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -157,11 +104,7 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id_sales`, `nama_sales`) VALUES
-(1, 'admin'),
-(2, 'Rio'),
-(4, 'dummy salesed'),
-(7, 'Sigmaskibidi'),
-(12, 'dummykan');
+(1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -186,11 +129,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `image`, `password`, `role_id`, `id_sales`, `is_active`, `date_created`) VALUES
-(5, 'admin', 'a@a.com', 'logo_(2).png', '$2y$10$gOGNm44ImI7oy1DztxwiweRgGoqgFNkOzi.QLQcYvWV9J4CdOMVym', 1, 1, 1, 0),
-(9, 'Sigma', 'sgm@sgm.com', 'default.jpg', '$2y$10$VgMKXqSsASgl103bDGZ.S.Z3rn2JpWLwyewcUh0hSKkJb5N8m05mq', 2, 7, 1, 1723690185),
-(11, 'Dumdums', 'sg@sg.com', 'default.jpg', '$2y$10$RGCjDh4hj80Po6DOepZBGeLhN1uOVyCOtdswM321/.j4DYH/Udxea', 2, 4, 1, 1724121519),
-(15, 'Rio', 'r@r.com', 'default.jpg', '$2y$10$LZgH6Jh15KKBYoS1PhxzOO.OZsmo0g/Jtn85KSPoWRAng4mvpKmtm', 2, 2, 1, 1725425912),
-(16, 'dumm', 'du@du.com', 'default.jpg', '$2y$10$cQFs9Jrg69Z.eBpF6ZbYt.JZA94g.9cKiOV8WnWvDvLR6ZmelFZOm', 2, 12, 1, 1725426088);
+(5, 'admin', 'a@a.com', 'logo_(2).png', '$2y$10$gOGNm44ImI7oy1DztxwiweRgGoqgFNkOzi.QLQcYvWV9J4CdOMVym', 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -286,9 +225,9 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (7, 3, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
 (9, 5, 'Tester', 'tester', 'fas fas-fw fa-folder', 1),
 (10, 1, 'Role', 'admin/role', 'fas fa-fw fa-user-tie', 1),
-(11, 6, 'Data Nasabah', 'data', 'fas fa-users', 1),
+(11, 6, 'Nasabah', 'data', 'fas fa-users', 1),
 (12, 2, 'Change Password', 'users/changepassword', 'fas fa-fw fa-key', 1),
-(13, 6, 'Data Aktivitas Marketing', 'data/aktivitasmarketing', 'fas fa-clipboard-list', 1),
+(13, 6, 'Aktivitas Marketing', 'data/aktivitasmarketing', 'fas fa-clipboard-list', 1),
 (14, 6, 'Closing', 'data/closing', 'fas fa-calendar-times', 1),
 (15, 6, 'PKS', 'data/pks', 'fas fa-handshake', 1);
 
@@ -376,7 +315,7 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `aktivitas_marketing`
 --
 ALTER TABLE `aktivitas_marketing`
-  MODIFY `id_aktivitas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_aktivitas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `closing`
@@ -388,7 +327,7 @@ ALTER TABLE `closing`
 -- AUTO_INCREMENT for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `pks`
@@ -400,13 +339,13 @@ ALTER TABLE `pks`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
