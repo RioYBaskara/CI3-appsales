@@ -39,7 +39,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">ID</th>
-                        <th scope="col">Sales - ID Sales</th>
+                        <th scope="col">Sales</th>
                         <th scope="col">Nama Nasabah</th>
                         <th scope="col">No Rekening</th>
                         <th scope="col">Action</th>
@@ -50,7 +50,7 @@
                         <tr>
                             <th><?= ++$start; ?></th>
                             <td><?= $nsb['id_nasabah']; ?></td>
-                            <td><?= $nsb['nama_sales']; ?> - <?= $nsb['id_sales']; ?></td>
+                            <td><?= $nsb['nama_sales']; ?></td>
                             <td><?= $nsb['nama_nasabah']; ?></td>
                             <td><?= $nsb['no_rekening']; ?></td>
                             <td>
@@ -89,10 +89,9 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <select name="id_sales" id="id_sales" class="form-control">
-                            <option value="">--Pilih Sales - ID Sales--</option>
+                            <option value="">--Pilih Sales--</option>
                             <?php foreach ($sales as $sl): ?>
-                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> -
-                                    <?= $sl['id_sales'] ?>
+                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -137,13 +136,11 @@ foreach ($nasabah as $nsb):
                             <div class="form-group">
                                 <label for="nasabah<?= $nsb['id_nasabah'] ?>" class="col-form-label">Sales:</label>
                                 <select name="id_sales" id="id_sales" class="form-control">
-                                    <option value="<?= $nsb['id_sales'] ?>"><?= $nsb['nama_sales'] ?> -
-                                        <?= $nsb['id_sales'] ?>
+                                    <option value="<?= $nsb['id_sales'] ?>"><?= $nsb['nama_sales'] ?>
                                     </option>
-                                    <option value="">--Pilih Sales - ID Sales--</option>
+                                    <option value="">--Pilih Sales--</option>
                                     <?php foreach ($sales as $sl): ?>
-                                        <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?> -
-                                            <?= $sl['id_sales'] ?>
+                                        <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
