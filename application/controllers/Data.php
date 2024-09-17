@@ -64,6 +64,7 @@ class Data extends CI_Controller
         if ($role_id != 1) {
             $this->db->where('nasabah.id_sales', $id_sales);
         }
+        $this->db->order_by('id_nasabah', 'DESC');
 
         $this->db->limit($config['per_page'], $data['start']);
         $data['nasabah'] = $this->db->get()->result_array();
