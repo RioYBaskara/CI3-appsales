@@ -67,7 +67,8 @@ CREATE TABLE `nasabah` (
   `id_nasabah` int(11) NOT NULL,
   `id_sales` int(11) NOT NULL,
   `nama_nasabah` varchar(100) NOT NULL,
-  `no_rekening` varchar(50) NOT NULL
+  `no_rekening` varchar(50) NOT NULL,
+  `is_pinned` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

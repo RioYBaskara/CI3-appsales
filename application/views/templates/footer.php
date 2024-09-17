@@ -76,6 +76,39 @@
             }
         });
     });
+
+    $(document).ready(function () {
+        // Pin button click event
+        $('.btn-pin').click(function () {
+            var id_nasabah = $(this).data('id');
+            $.ajax({
+                url: '<?php echo base_url('Data/pin_nasabah'); ?>/' + id_nasabah,
+                type: 'POST',
+                success: function (response) {
+                    var data = JSON.parse(response);
+                    if (data.status === 'success') {
+                        location.reload(); // Reload the page to reflect changes
+                    }
+                }
+            });
+        });
+
+        // Unpin button click event
+        $('.btn-unpin').click(function () {
+            var id_nasabah = $(this).data('id');
+            $.ajax({
+                url: '<?php echo base_url('Data/unpin_nasabah'); ?>/' + id_nasabah,
+                type: 'POST',
+                success: function (response) {
+                    var data = JSON.parse(response);
+                    if (data.status === 'success') {
+                        location.reload(); // Reload the page to reflect changes
+                    }
+                }
+            });
+        });
+    });
+
 </script>
 
 </body>

@@ -33,8 +33,43 @@
 
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newMenuNasabah">Add New
                 Nasabah</a>
-            <table class="table table-hover">
 
+            <!-- Tabel Nasabah Pinned -->
+            <?php if (!empty($pinned_nasabah)): ?>
+                <h3>Data Nasabah</h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Sales</th>
+                            <th scope="col">Nama Nasabah</th>
+                            <th scope="col">No Rekening</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($pinned_nasabah as $pnndnsb): ?>
+                            <tr>
+                                <td><?= $pnndnsb['id_nasabah']; ?></td>
+                                <td><?= $pnndnsb['nama_sales']; ?></td>
+                                <td><?= $pnndnsb['nama_nasabah']; ?></td>
+                                <td><?= $pnndnsb['no_rekening']; ?></td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#modal-edit<?= $pnndnsb['id_nasabah'] ?>"
+                                        class="btn btn-success"><i class="fa fa-pencil-alt"></i></a>
+                                    <a href="<?= base_url(); ?>data/nasabahhapus/<?= $pnndnsb['id_nasabah']; ?>"
+                                        class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
+                                    <button class="btn btn-primary btn-unpin"
+                                        data-id="<?php echo $pnndnsb['id_nasabah']; ?>">Unpin</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+
+            <h3>Data Nasabah</h3>
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -55,15 +90,19 @@
                             <td><?= $nsb['no_rekening']; ?></td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $nsb['id_nasabah'] ?>"
-                                    class="btn btn-success  "><i class="fa fa-pencil-alt"></i></a>
+                                    class="btn btn-success"><i class="fa fa-pencil-alt"></i></a>
                                 <a href="<?= base_url(); ?>data/nasabahhapus/<?= $nsb['id_nasabah']; ?>"
                                     class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
+                                <button class="btn btn-primary btn-pin"
+                                    data-id="<?php echo $nsb['id_nasabah']; ?>">Pin</button>
+                            </td>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <?= $this->pagination->create_links(); ?>
+
         </div>
     </div>
 
@@ -168,6 +207,68 @@ foreach ($nasabah as $nsb):
                                 <input type="text" class="form-control" id="nasabah<?= $nsb['no_rekening'] ?>"
                                     name="no_rekening" value="<?= $nsb['no_rekening'] ?>" placeholder="Masukkan No Rekening"
                                     autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+<?php $no = 0;
+foreach ($pinned_nasabah as $pnndnsb):
+    $no++; ?>
+    <div class="row">
+        <div id="modal-edit<?= $pnndnsb['id_nasabah'] ?>" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="modal-edit<?= $pnndnsb['id_nasabah'] ?>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-edit<?= $pnndnsb['id_nasabah'] ?>Label">Edit Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="<?= base_url('data/nasabahedit'); ?>" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" readonly value="<?= $pnndnsb['id_nasabah']; ?>" name="id_nasabah"
+                                class="form-control">
+                            <?php if ($role_id == 1): ?>
+                                <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
+                                <div class="form-group">
+                                    <label for="nasabah<?= $pnndnsb['id_nasabah'] ?>" class="col-form-label">Sales:</label>
+                                    <select name="id_sales" id="id_sales" class="form-control">
+                                        <option value="<?= $pnndnsb['id_sales'] ?>"><?= $pnndnsb['nama_sales'] ?>
+                                        </option>
+                                        <option value="">--Pilih Sales--</option>
+                                        <?php foreach ($sales as $sl): ?>
+                                            <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php else: ?>
+                                <!-- Jika bukan Admin, tampilkan sales user otomatis -->
+                                <input type="hidden" name="id_sales" value="<?= $id_sales ?>">
+                            <?php endif; ?>
+                            <div class="form-group">
+                                <label for="nasabah<?= $pnndnsb['nama_nasabah'] ?>" class="col-form-label">Nama
+                                    Nasabah:</label>
+                                <input type="text" class="form-control" id="nasabah<?= $pnndnsb['nama_nasabah'] ?>"
+                                    name="nama_nasabah" value="<?= $pnndnsb['nama_nasabah'] ?>"
+                                    placeholder="Masukkan Nama Nasabah" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="nasabah<?= $pnndnsb['no_rekening'] ?>" class="col-form-label">No
+                                    Rekening:</label>
+                                <input type="text" class="form-control" id="nasabah<?= $pnndnsb['no_rekening'] ?>"
+                                    name="no_rekening" value="<?= $pnndnsb['no_rekening'] ?>"
+                                    placeholder="Masukkan No Rekening" autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
