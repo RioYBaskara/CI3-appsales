@@ -51,6 +51,7 @@ class Data extends CI_Controller
             $this->db->where('nasabah.id_sales', $id_sales);
         }
 
+        $this->db->order_by('id_nasabah', 'DESC');
         $data['pinned_nasabah'] = $this->db->get()->result_array();
 
         // Konfigurasi Pagination
@@ -107,19 +108,31 @@ class Data extends CI_Controller
         }
     }
 
-    public function pinNasabah()
+    public function pin_nasabah($id_nasabah)
     {
-        $id_nasabah = $this->input->post('id_nasabah');
-        $is_pinned = $this->input->post('is_pinned');
-
-        // Update status is_pinned
-        $this->db->set('is_pinned', $is_pinned);
+        // Update `is_pinned` status to 1
+        $this->db->set('is_pinned', 1);
         $this->db->where('id_nasabah', $id_nasabah);
         $this->db->update('nasabah');
 
         echo json_encode(['status' => 'success']);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data telah dipin!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button></div>');
     }
 
+    public function unpin_nasabah($id_nasabah)
+    {
+        // Update `is_pinned` status to 0
+        $this->db->set('is_pinned', 0);
+        $this->db->where('id_nasabah', $id_nasabah);
+        $this->db->update('nasabah');
+
+        echo json_encode(['status' => 'success']);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data telah diunpin!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button></div>');
+    }
 
     public function nasabahedit()
     {
