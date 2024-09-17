@@ -87,15 +87,21 @@
             </div>
             <form action="<?= base_url('data'); ?>" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <select name="id_sales" id="id_sales" class="form-control">
-                            <option value="">--Pilih Sales--</option>
-                            <?php foreach ($sales as $sl): ?>
-                                <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <?php if ($role_id == 1): ?>
+                        <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
+                        <div class="form-group">
+                            <select name="id_sales" id="id_sales" class="form-control">
+                                <option value="">--Pilih Sales--</option>
+                                <?php foreach ($sales as $sl): ?>
+                                    <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php else: ?>
+                        <!-- Jika bukan Admin, tampilkan sales user otomatis -->
+                        <input type="hidden" name="id_sales" value="<?= $id_sales ?>">
+                    <?php endif; ?>
                     <div class="form-group">
                         <input autocomplete="off" type="text" class="form-control" id="nama_nasabah" name="nama_nasabah"
                             placeholder="Nama Nasabah">
@@ -133,18 +139,24 @@ foreach ($nasabah as $nsb):
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $nsb['id_nasabah']; ?>" name="id_nasabah"
                                 class="form-control">
-                            <div class="form-group">
-                                <label for="nasabah<?= $nsb['id_nasabah'] ?>" class="col-form-label">Sales:</label>
-                                <select name="id_sales" id="id_sales" class="form-control">
-                                    <option value="<?= $nsb['id_sales'] ?>"><?= $nsb['nama_sales'] ?>
-                                    </option>
-                                    <option value="">--Pilih Sales--</option>
-                                    <?php foreach ($sales as $sl): ?>
-                                        <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
+                            <?php if ($role_id == 1): ?>
+                                <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
+                                <div class="form-group">
+                                    <label for="nasabah<?= $nsb['id_nasabah'] ?>" class="col-form-label">Sales:</label>
+                                    <select name="id_sales" id="id_sales" class="form-control">
+                                        <option value="<?= $nsb['id_sales'] ?>"><?= $nsb['nama_sales'] ?>
                                         </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                                        <option value="">--Pilih Sales--</option>
+                                        <?php foreach ($sales as $sl): ?>
+                                            <option value="<?= $sl['id_sales']; ?>"><?= $sl['nama_sales']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php else: ?>
+                                <!-- Jika bukan Admin, tampilkan sales user otomatis -->
+                                <input type="hidden" name="id_sales" value="<?= $id_sales ?>">
+                            <?php endif; ?>
                             <div class="form-group">
                                 <label for="nasabah<?= $nsb['nama_nasabah'] ?>" class="col-form-label">Nama Nasabah:</label>
                                 <input type="text" class="form-control" id="nasabah<?= $nsb['nama_nasabah'] ?>"

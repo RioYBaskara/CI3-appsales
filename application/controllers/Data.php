@@ -29,7 +29,9 @@ class Data extends CI_Controller
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 
         $role_id = $this->session->userdata("role_id");
+        $data['role_id'] = $role_id;
         $id_sales = $data['user']['id_sales'];
+        $data['id_sales'] = $id_sales;
 
         $this->db->select('role');
         $this->db->from('user_role');
