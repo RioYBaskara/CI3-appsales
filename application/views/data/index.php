@@ -178,6 +178,7 @@ foreach ($nasabah as $nsb):
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $nsb['id_nasabah']; ?>" name="id_nasabah"
                                 class="form-control">
+                            <input type="hidden" name="current_rek" value="<?= $nsb['no_rekening']; ?>">
                             <?php if ($role_id == 1): ?>
                                 <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
                                 <div class="form-group">
@@ -236,6 +237,7 @@ foreach ($pinned_nasabah as $pnndnsb):
                     </div>
                     <form action="<?= base_url('data/nasabahedit'); ?>" method="post">
                         <div class="modal-body">
+                            <input type="hidden" name="current_rek" value="<?= $pnndnsb['no_rekening']; ?>">
                             <input type="hidden" readonly value="<?= $pnndnsb['id_nasabah']; ?>" name="id_nasabah"
                                 class="form-control">
                             <?php if ($role_id == 1): ?>

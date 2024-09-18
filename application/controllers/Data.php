@@ -88,7 +88,9 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
+            'is_unique' => 'Nomor Rekening telah terdaftar!'
+        ]);
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -163,9 +165,17 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
-            'is_unique' => 'Nomor Rekening telah terdaftar!'
-        ]);
+
+        $current_rek = $this->input->post('current_rek');
+        $new_rek = $this->input->post('no_rekening');
+
+        if ($new_rek != $current_rek) {
+            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
+                'is_unique' => 'Nomor Rekening telah terdaftar!'
+            ]);
+        } else {
+            $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
+        }
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
