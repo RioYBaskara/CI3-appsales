@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2024 at 05:12 AM
+-- Generation Time: Sep 18, 2024 at 05:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -85,6 +85,7 @@ CREATE TABLE `pks` (
   `no_pks` varchar(50) NOT NULL,
   `tanggal_awal_pks` date NOT NULL,
   `tanggal_akhir_pks` date NOT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -352,7 +353,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
