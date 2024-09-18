@@ -42,7 +42,7 @@ class Data extends CI_Controller
         $data['roleuser'] = $result['role'];
 
         // Ambil data nasabah yang dipinned
-        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.is_pinned, nasabah.id_sales, sales.nama_sales AS nama_sales');
+        $this->db->select('nasabah.*, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
         $this->db->where('nasabah.is_pinned', 1);
@@ -72,7 +72,7 @@ class Data extends CI_Controller
         $data['start'] = $this->uri->segment(3);
 
         // Mengambil Data dengan Limit untuk Pagination
-        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.is_pinned, nasabah.id_sales, sales.nama_sales AS nama_sales');
+        $this->db->select('nasabah.*, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
 
@@ -88,9 +88,9 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
-            'is_unique' => 'Nomor Rekening telah terdaftar!'
-        ]);
+        // $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
+        //     'is_unique' => 'Nomor Rekening telah terdaftar!'
+        // ]);
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -102,7 +102,7 @@ class Data extends CI_Controller
             $data = [
                 'id_sales' => $this->input->post('id_sales'),
                 'nama_nasabah' => $this->input->post('nama_nasabah'),
-                'no_rekening' => $this->input->post('no_rekening'),
+                // 'no_rekening' => $this->input->post('no_rekening'),
             ];
             $this->db->insert('nasabah', $data);
             $this->session->set_flashdata("flashswal", "Ditambah");
@@ -152,7 +152,7 @@ class Data extends CI_Controller
 
         $data['roleuser'] = $result['role'];
 
-        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
+        $this->db->select('nasabah.*, sales.nama_sales AS nama_sales');
         $this->db->from('nasabah');
         $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
 
@@ -166,16 +166,16 @@ class Data extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required');
 
-        $current_rek = $this->input->post('current_rek');
-        $new_rek = $this->input->post('no_rekening');
+        // $current_rek = $this->input->post('current_rek');
+        // $new_rek = $this->input->post('no_rekening');
 
-        if ($new_rek != $current_rek) {
-            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
-                'is_unique' => 'Nomor Rekening telah terdaftar!'
-            ]);
-        } else {
-            $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
-        }
+        // if ($new_rek != $current_rek) {
+        //     $this->form_validation->set_rules('no_rekening', 'No Rekening', 'required|numeric|is_unique[nasabah.no_rekening]', [
+        //         'is_unique' => 'Nomor Rekening telah terdaftar!'
+        //     ]);
+        // } else {
+        //     $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
+        // }
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('templates/header', $data);
@@ -187,7 +187,7 @@ class Data extends CI_Controller
             $data = [
                 'id_sales' => $this->input->post('id_sales'),
                 'nama_nasabah' => $this->input->post('nama_nasabah'),
-                'no_rekening' => $this->input->post('no_rekening'),
+                // 'no_rekening' => $this->input->post('no_rekening'),
             ];
             $this->db->where('id_nasabah', $this->input->post('id_nasabah'));
             $this->db->update('nasabah', $data);
@@ -543,6 +543,7 @@ class Data extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
         $this->form_validation->set_rules('nominal_closing', 'Nominal', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -585,6 +586,7 @@ class Data extends CI_Controller
                         'id_nasabah' => $this->input->post('id_nasabah'),
                         'tanggal' => $tanggal,
                         'hari' => $hari,
+                        'no_rekening' => $this->input->post('no_rekening'),
                         'nominal_closing' => $this->input->post('nominal_closing'),
                         'upload_foto' => $new_image,
                     ];
@@ -606,6 +608,7 @@ class Data extends CI_Controller
                     'id_nasabah' => $this->input->post('id_nasabah'),
                     'tanggal' => $tanggal,
                     'hari' => $hari,
+                    'no_rekening' => $this->input->post('no_rekening'),
                     'nominal_closing' => $this->input->post('nominal_closing'),
                     'upload_foto' => 'default.jpg',
                 ];
@@ -641,6 +644,7 @@ class Data extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
         $this->form_validation->set_rules('nominal_closing', 'Nominal', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -671,6 +675,7 @@ class Data extends CI_Controller
                 'id_nasabah' => $this->input->post('id_nasabah'),
                 'tanggal' => $tanggal,
                 'hari' => $hari,
+                'no_rekening' => $this->input->post('no_rekening'),
                 'nominal_closing' => $this->input->post('nominal_closing'),
             ];
 

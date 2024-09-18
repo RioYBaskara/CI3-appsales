@@ -36,6 +36,7 @@
                         <th scope="col">Nasabah</th>
                         <th scope="col">Hari</th>
                         <th scope="col">Tanggal</th>
+                        <th scope="col">No Rekening</th>
                         <th scope="col">Nominal</th>
                         <th scope="col">Foto</th>
                         <th scope="col">Action</th>
@@ -50,6 +51,7 @@
                             <td><?= $cls['nama_nasabah']; ?></td>
                             <td><?= $cls['hari']; ?></td>
                             <td><?= date("j F Y", strtotime($cls['tanggal'])); ?></td>
+                            <td><?= $cls['no_rekening']; ?></td>
                             <td><?= 'Rp ' . number_format($cls['nominal_closing'], 2, ',', '.'); ?></td>
                             <td>
                                 <img src="<?= base_url('assets/img/closing/') . $cls['upload_foto']; ?>" alt="Foto Closing"
@@ -117,6 +119,10 @@
                     </div>
                     <div class="form-group">
                         <input autocomplete="off" type="date" class="form-control" id="tanggal" name="tanggal">
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" type="text" class="form-control" id="no_rekening" name="no_rekening"
+                            placeholder="Nomor Rekening">
                     </div>
                     <div class="form-group">
                         <input autocomplete="off" type="text" class="form-control" id="nominal_closing"
@@ -205,6 +211,13 @@ foreach ($closing as $cls):
                                     Closing:</label>
                                 <input type="date" class="form-control" id="closing<?= $cls['tanggal'] ?>" name="tanggal"
                                     value="<?= $cls['tanggal'] ?>" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="closing<?= $cls['no_rekening'] ?>" class="col-form-label">Nomor
+                                    Rekening:</label>
+                                <input type="text" class="form-control" id="closing<?= $cls['no_rekening'] ?>"
+                                    name="no_rekening" value="<?= $cls['no_rekening'] ?>"
+                                    placeholder="Masukkan Nomor Rekening" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="closing<?= $cls['nominal_closing'] ?>" class="col-form-label">Nominal:</label>

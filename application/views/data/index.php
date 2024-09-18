@@ -43,7 +43,6 @@
                             <th scope="col">ID</th>
                             <th scope="col">Sales</th>
                             <th scope="col">Nama Nasabah</th>
-                            <th scope="col">No Rekening</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -53,7 +52,6 @@
                                 <td><?= $pnndnsb['id_nasabah']; ?></td>
                                 <td><?= $pnndnsb['nama_sales']; ?></td>
                                 <td><?= $pnndnsb['nama_nasabah']; ?></td>
-                                <td><?= $pnndnsb['no_rekening']; ?></td>
                                 <td>
                                     <a data-toggle="modal" data-target="#modal-edit<?= $pnndnsb['id_nasabah'] ?>"
                                         class="btn btn-success"><i class="fa fa-pencil-alt"></i></a>
@@ -76,7 +74,6 @@
                         <th scope="col">ID</th>
                         <th scope="col">Sales</th>
                         <th scope="col">Nama Nasabah</th>
-                        <th scope="col">No Rekening</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -87,7 +84,6 @@
                             <td><?= $nsb['id_nasabah']; ?></td>
                             <td><?= $nsb['nama_sales']; ?></td>
                             <td><?= $nsb['nama_nasabah']; ?></td>
-                            <td><?= $nsb['no_rekening']; ?></td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $nsb['id_nasabah'] ?>"
                                     class="btn btn-success"><i class="fa fa-pencil-alt"></i></a>
@@ -145,10 +141,6 @@
                         <input autocomplete="off" type="text" class="form-control" id="nama_nasabah" name="nama_nasabah"
                             placeholder="Nama Nasabah">
                     </div>
-                    <div class="form-group">
-                        <input autocomplete="off" type="text" class="form-control" id="no_rekening" name="no_rekening"
-                            placeholder="No Rekening">
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -178,7 +170,6 @@ foreach ($nasabah as $nsb):
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $nsb['id_nasabah']; ?>" name="id_nasabah"
                                 class="form-control">
-                            <input type="hidden" name="current_rek" value="<?= $nsb['no_rekening']; ?>">
                             <?php if ($role_id == 1): ?>
                                 <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
                                 <div class="form-group">
@@ -202,12 +193,6 @@ foreach ($nasabah as $nsb):
                                 <input type="text" class="form-control" id="nasabah<?= $nsb['nama_nasabah'] ?>"
                                     name="nama_nasabah" value="<?= $nsb['nama_nasabah'] ?>"
                                     placeholder="Masukkan Nama Nasabah" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label for="nasabah<?= $nsb['no_rekening'] ?>" class="col-form-label">No Rekening:</label>
-                                <input type="text" class="form-control" id="nasabah<?= $nsb['no_rekening'] ?>"
-                                    name="no_rekening" value="<?= $nsb['no_rekening'] ?>" placeholder="Masukkan No Rekening"
-                                    autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -237,7 +222,6 @@ foreach ($pinned_nasabah as $pnndnsb):
                     </div>
                     <form action="<?= base_url('data/nasabahedit'); ?>" method="post">
                         <div class="modal-body">
-                            <input type="hidden" name="current_rek" value="<?= $pnndnsb['no_rekening']; ?>">
                             <input type="hidden" readonly value="<?= $pnndnsb['id_nasabah']; ?>" name="id_nasabah"
                                 class="form-control">
                             <?php if ($role_id == 1): ?>
@@ -264,13 +248,6 @@ foreach ($pinned_nasabah as $pnndnsb):
                                 <input type="text" class="form-control" id="nasabah<?= $pnndnsb['nama_nasabah'] ?>"
                                     name="nama_nasabah" value="<?= $pnndnsb['nama_nasabah'] ?>"
                                     placeholder="Masukkan Nama Nasabah" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label for="nasabah<?= $pnndnsb['no_rekening'] ?>" class="col-form-label">No
-                                    Rekening:</label>
-                                <input type="text" class="form-control" id="nasabah<?= $pnndnsb['no_rekening'] ?>"
-                                    name="no_rekening" value="<?= $pnndnsb['no_rekening'] ?>"
-                                    placeholder="Masukkan No Rekening" autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
