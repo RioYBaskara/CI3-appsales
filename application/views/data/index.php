@@ -36,9 +36,9 @@
 
             <!-- Tabel Nasabah Pinned -->
             <?php if (!empty($pinned_nasabah)): ?>
-                <h3>Data Nasabah</h3>
-                <table class="table table-hover">
-                    <thead>
+                <h4>Pinned Data</h4>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Sales</th>
@@ -66,7 +66,7 @@
                 </table>
             <?php endif; ?>
 
-            <h3>Data Nasabah</h3>
+            <h4>Data Nasabah</h4>
             <table class="table table-hover">
                 <thead>
                     <tr>
