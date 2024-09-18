@@ -177,6 +177,7 @@ foreach ($pks as $pk):
                     <form action="<?= base_url('data/pksedit'); ?>" method="post">
                         <div class="modal-body">
                             <input type="hidden" readonly value="<?= $pk['id_pks']; ?>" name="id_pks" class="form-control">
+                            <input type="hidden" name="current_pks" value="<?= $pk['no_pks']; ?>">
                             <?php if ($role_id == 1): ?>
                                 <!-- Jika Admin, tampilkan opsi select untuk memilih sales -->
                                 <div class="form-group">

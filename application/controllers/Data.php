@@ -854,9 +854,18 @@ class Data extends CI_Controller
 
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
-        $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required|numeric|is_unique[pks.no_pks]', [
-            'is_unique' => 'Nomor PKS telah terdaftar!'
-        ]);
+
+        $current_pks = $this->input->post('current_pks');
+        $new_pks = $this->input->post('no_pks');
+
+        if ($new_pks != $current_pks) {
+            $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required|numeric|is_unique[pks.no_pks]', [
+                'is_unique' => 'Nomor PKS telah terdaftar!'
+            ]);
+        } else {
+            $this->form_validation->set_rules('no_pks', 'Nomor PKS', 'required|numeric');
+        }
+
         $this->form_validation->set_rules('tanggal_awal_pks', 'Tanggal Awal PKS', 'required');
         $this->form_validation->set_rules('tanggal_akhir_pks', 'Tanggal Akhir PKS', 'required');
 
