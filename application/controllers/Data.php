@@ -543,6 +543,7 @@ class Data extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
         $this->form_validation->set_rules('nominal_closing', 'Nominal', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -585,6 +586,7 @@ class Data extends CI_Controller
                         'id_nasabah' => $this->input->post('id_nasabah'),
                         'tanggal' => $tanggal,
                         'hari' => $hari,
+                        'no_rekening' => $this->input->post('no_rekening'),
                         'nominal_closing' => $this->input->post('nominal_closing'),
                         'upload_foto' => $new_image,
                     ];
@@ -606,6 +608,7 @@ class Data extends CI_Controller
                     'id_nasabah' => $this->input->post('id_nasabah'),
                     'tanggal' => $tanggal,
                     'hari' => $hari,
+                    'no_rekening' => $this->input->post('no_rekening'),
                     'nominal_closing' => $this->input->post('nominal_closing'),
                     'upload_foto' => 'default.jpg',
                 ];
@@ -641,6 +644,7 @@ class Data extends CI_Controller
         $this->form_validation->set_rules('id_sales', 'Nama Sales', 'required');
         $this->form_validation->set_rules('id_nasabah', 'Nama Nasabah', 'required');
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
         $this->form_validation->set_rules('nominal_closing', 'Nominal', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -671,6 +675,7 @@ class Data extends CI_Controller
                 'id_nasabah' => $this->input->post('id_nasabah'),
                 'tanggal' => $tanggal,
                 'hari' => $hari,
+                'no_rekening' => $this->input->post('no_rekening'),
                 'nominal_closing' => $this->input->post('nominal_closing'),
             ];
 
