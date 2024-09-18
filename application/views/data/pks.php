@@ -36,6 +36,7 @@
                         <th scope="col">No PKS</th>
                         <th scope="col">Tanggal Awal PKS</th>
                         <th scope="col">Tanggal Akhir PKS</th>
+                        <th scope="col">Keterangan</th>
                         <th scope="col">Foto</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -50,6 +51,7 @@
                             <td><?= $pk['no_pks']; ?></td>
                             <td><?= date("j F Y", strtotime($pk['tanggal_awal_pks'])); ?></td>
                             <td><?= date("j F Y", strtotime($pk['tanggal_akhir_pks'])); ?>
+                            <td><?= $pk['keterangan']; ?></td>
                             <td>
                                 <img src="<?= base_url('assets/img/pks/') . $pk['upload_foto']; ?>" alt="Foto Aktivitas"
                                     class="img-thumbnail" style="width: 100px; height: auto;">
@@ -124,6 +126,10 @@
                     <div class="form-group">
                         <input autocomplete="off" type="date" class="form-control" id="tanggal_akhir_pks"
                             name="tanggal_akhir_pks">
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" type="text" class="form-control" id="keterangan" name="keterangan"
+                            placeholder="Keterangan">
                     </div>
                     <div class="form-group row">
                         <div class="col-sm">Foto</div>
@@ -218,6 +224,11 @@ foreach ($pks as $pk):
                                     Akhir PKS:</label>
                                 <input type="date" class="form-control" id="pks<?= $pk['tanggal_akhir_pks'] ?>"
                                     name="tanggal_akhir_pks" value="<?= $pk['tanggal_akhir_pks'] ?>" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="pks<?= $pk['keterangan'] ?>" class="col-form-label">Keterangan:</label>
+                                <input type="text" class="form-control" id="pks<?= $pk['keterangan'] ?>" name="keterangan"
+                                    value="<?= $pk['keterangan'] ?>" placeholder="Masukkan Keterangan" autocomplete="off">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm">Foto</div>

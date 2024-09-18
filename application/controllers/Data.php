@@ -798,6 +798,7 @@ class Data extends CI_Controller
                         'no_pks' => $this->input->post('no_pks'),
                         'tanggal_awal_pks' => $this->input->post('tanggal_awal_pks'),
                         'tanggal_akhir_pks' => $this->input->post('tanggal_akhir_pks'),
+                        'keterangan' => $this->input->post('keterangan'),
                         'upload_foto' => $new_image,
                     ];
 
@@ -819,6 +820,7 @@ class Data extends CI_Controller
                     'no_pks' => $this->input->post('no_pks'),
                     'tanggal_awal_pks' => $this->input->post('tanggal_awal_pks'),
                     'tanggal_akhir_pks' => $this->input->post('tanggal_akhir_pks'),
+                    'keterangan' => $this->input->post('keterangan'),
                     'upload_foto' => 'default.jpg',
                 ];
 
@@ -871,6 +873,7 @@ class Data extends CI_Controller
                 'no_pks' => $this->input->post('no_pks'),
                 'tanggal_awal_pks' => $this->input->post('tanggal_awal_pks'),
                 'tanggal_akhir_pks' => $this->input->post('tanggal_akhir_pks'),
+                'keterangan' => $this->input->post('keterangan'),
             ];
 
             $upload_image = $_FILES['image']['name'];
