@@ -33,9 +33,9 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">ID</th>
+                        <th scope="col">Foto</th>
                         <th scope="col">Nama User</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Image</th>
                         <th scope="col">Role - ID Role</th>
                         <th scope="col">Sales - ID Sales</th>
                         <th scope="col">User Aktif</th>
@@ -49,9 +49,12 @@
                         <tr>
                             <th scope="row"><?= $i; ?></th>
                             <td><?= $u['id']; ?></td>
+                            <td>
+                                <img src="<?= base_url('assets/img/profile/') . $u['image']; ?>" alt="Foto Aktivitas"
+                                    class="img-thumbnail" style="width: 100px; height: auto;">
+                            </td>
                             <td><?= $u['name']; ?></td>
                             <td><?= $u['email']; ?></td>
-                            <td><?= $u['image']; ?></td>
                             <td><?= $u['nama_role']; ?> - <?= $u['role_id']; ?></td>
                             <td><?= $u['nama_sales']; ?> - <?= $u['id_sales']; ?></td>
                             <td>
