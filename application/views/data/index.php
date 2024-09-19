@@ -5,9 +5,32 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <a href="<?= base_url('export/excell/exportnasabah'); ?>"
-            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+
+        <div class="d-flex flex-column">
+            <!-- Tombol Export Semua Data -->
+            <form class="justify-content-end d-flex" method="post"
+                action="<?= base_url('export/excell/exportnasabah'); ?>">
+                <button class="btn btn-primary mb-3" name="export_all" type="submit">
+                    <i class="fas fa-download fa-sm text-white-50"></i> Export Semua Data
+                </button>
+            </form>
+
+            <!-- Form Export Berdasarkan Tanggal -->
+            <form method="post" action="<?= base_url('export/excell/exportnasabah'); ?>">
+                <div class="input-group">
+                    <input type="date" name="selected_date" class="form-control" required>
+                    <select name="export_option" class="custom-select" id="exportOption" required>
+                        <option value="week">Export Data Minggu Ini (berdasarkan tanggal)</option>
+                        <option value="month">Export Data Bulan Ini (berdasarkan tanggal)</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit"><i
+                                class="fas fa-download fa-sm text-white-50"></i>
+                            Generate Report</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- content -->
@@ -43,6 +66,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Sales</th>
                             <th scope="col">Nama Nasabah</th>
+                            <th scope="col">Tanggal Daftar</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -52,6 +76,7 @@
                                 <td><?= $pnndnsb['id_nasabah']; ?></td>
                                 <td><?= $pnndnsb['nama_sales']; ?></td>
                                 <td><?= $pnndnsb['nama_nasabah']; ?></td>
+                                <td><?= $pnndnsb['created_at']; ?></td>
                                 <td>
                                     <a data-toggle="modal" data-target="#modal-edit<?= $pnndnsb['id_nasabah'] ?>"
                                         class="btn btn-success"><i class="fa fa-pencil-alt"></i></a>
@@ -74,6 +99,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Sales</th>
                         <th scope="col">Nama Nasabah</th>
+                        <th scope="col">Tanggal Daftar</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -84,6 +110,7 @@
                             <td><?= $nsb['id_nasabah']; ?></td>
                             <td><?= $nsb['nama_sales']; ?></td>
                             <td><?= $nsb['nama_nasabah']; ?></td>
+                            <td><?= $nsb['created_at']; ?></td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $nsb['id_nasabah'] ?>"
                                     class="btn btn-success"><i class="fa fa-pencil-alt"></i></a>
