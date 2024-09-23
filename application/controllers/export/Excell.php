@@ -27,57 +27,79 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        // Cek apakah tombol "Export Semua Data" ditekan
+        if ($this->input->post('export_all')) {
+            // Logika untuk export semua data
+            $this->db->order_by('id_nasabah', 'DESC'); // Tambahkan urutan DESC
+            $dataNasabah = $this->db->get('nasabah')->result_array();
+        } else {
+            // Ambil pilihan tanggal dan opsi export
+            $selectedDate = $this->input->post('selected_date');
+            $exportOption = $this->input->post('export_option');
 
-        $role_id = $this->session->userdata("role_id");
-        $id_sales = $data['user']['id_sales'];
+            // Ambil data user dan sales terkait
+            $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+            $role_id = $this->session->userdata("role_id");
+            $id_sales = $data['user']['id_sales'];
 
-        // Ambil data nasabah dari database
-        $this->db->select('nasabah.id_nasabah, nasabah.nama_nasabah, nasabah.no_rekening, nasabah.id_sales, sales.nama_sales AS nama_sales');
-        $this->db->from('nasabah');
-        $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
+            // Filter data berdasarkan pilihan export dan tanggal
+            $this->db->select('nasabah.*, sales.nama_sales AS nama_sales');
+            $this->db->from('nasabah');
+            $this->db->join('sales', 'nasabah.id_sales = sales.id_sales');
 
-        if ($role_id != 1) {
-            $this->db->where('nasabah.id_sales', $id_sales);
+            if ($role_id != 1) {
+                $this->db->where('nasabah.id_sales', $id_sales);
+            }
+
+            // Logika filter berdasarkan pilihan (minggu atau bulan)
+            if ($exportOption == 'week') {
+                // Filter untuk minggu berdasarkan tanggal yang dipilih
+                $startOfWeek = date('Y-m-d', strtotime('monday this week', strtotime($selectedDate)));
+                $endOfWeek = date('Y-m-d', strtotime('sunday this week', strtotime($selectedDate)));
+                $this->db->where('nasabah.created_at >=', $startOfWeek);
+                $this->db->where('nasabah.created_at <=', $endOfWeek);
+            } elseif ($exportOption == 'month') {
+                // Filter untuk bulan berdasarkan tanggal yang dipilih
+                $startOfMonth = date('Y-m-01', strtotime($selectedDate));
+                $endOfMonth = date('Y-m-t', strtotime($selectedDate));  // Akhir bulan
+                $this->db->where('nasabah.created_at >=', $startOfMonth);
+                $this->db->where('nasabah.created_at <=', $endOfMonth);
+            }
+
+            // Tambahkan urutan DESC
+            $this->db->order_by('id_nasabah', 'DESC');
+            $dataNasabah = $this->db->get()->result_array();
         }
 
-        $dataNasabah = $this->db->get()->result_array();
-
-        // Nama Header Kolom
-        $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
+        // Tambah header kolom
+        $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'ID Nasabah');
         $sheet->setCellValue('C1', 'Nama Nasabah');
-        $sheet->setCellValue('D1', 'No Rekening');
-        $sheet->setCellValue('E1', 'ID Sales');
-        $sheet->setCellValue('F1', 'Nama Sales');
+        $sheet->setCellValue('D1', 'Nama Sales');
+        $sheet->setCellValue('E1', 'Tanggal Dibuat');
 
-        // Isi data ke baris Excel mulai dari baris kedua
+        // Isi data ke baris Excel
         $row = 2;
         $no = 1;
         foreach ($dataNasabah as $nasabah) {
             $sheet->setCellValue('A' . $row, $no++);
             $sheet->setCellValue('B' . $row, $nasabah['id_nasabah']);
             $sheet->setCellValue('C' . $row, $nasabah['nama_nasabah']);
-            $sheet->setCellValue('D' . $row, $nasabah['no_rekening']);
-            $sheet->setCellValue('E' . $row, $nasabah['id_sales']);
-            $sheet->setCellValue('F' . $row, $nasabah['nama_sales']);
+            $sheet->setCellValue('D' . $row, $nasabah['nama_sales']);
+            $sheet->setCellValue('E' . $row, $nasabah['created_at']);
             $row++;
         }
 
-        // Buat objek writer untuk menyimpan Excel dalam format Xlsx
+        // Export ke Excel
         $writer = new Xlsx($spreadsheet);
+        $filename = 'data-nasabah-' . date('Ymd') . '.xlsx';
 
-        // Set nama file untuk didownload
-        $filename = 'Data_Nasabah_' . date('Ymd') . '.xlsx';
-
-        // Header untuk download file Excel
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
-
-        // Simpan file Excel ke output
         $writer->save('php://output');
     }
+
 
     public function exportAktivitasMarketing()
     {
@@ -86,9 +108,12 @@ class Excell extends CI_Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-
         $role_id = $this->session->userdata("role_id");
         $id_sales = $data['user']['id_sales'];
+
+        // Ambil pilihan tanggal dan opsi export (minggu/bulan)
+        $selectedDate = $this->input->post('selected_date');
+        $exportOption = $this->input->post('export_option');
 
         // Konfigurasi Query
         $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
@@ -96,17 +121,35 @@ class Excell extends CI_Controller
         $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
         $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
 
+        // Filter berdasarkan role user
         if ($role_id != 1) {
             $this->db->where('aktivitas_marketing.id_sales', $id_sales);
         }
 
+        // Logika filter berdasarkan pilihan (minggu atau bulan)
+        if ($exportOption == 'week') {
+            // Filter untuk minggu berdasarkan tanggal yang dipilih
+            $startOfWeek = date('Y-m-d', strtotime('monday this week', strtotime($selectedDate)));
+            $endOfWeek = date('Y-m-d', strtotime('sunday this week', strtotime($selectedDate)));
+            $this->db->where('aktivitas_marketing.tanggal >=', $startOfWeek);
+            $this->db->where('aktivitas_marketing.tanggal <=', $endOfWeek);
+        } elseif ($exportOption == 'month') {
+            // Filter untuk bulan berdasarkan tanggal yang dipilih
+            $startOfMonth = date('Y-m-01', strtotime($selectedDate));
+            $endOfMonth = date('Y-m-t', strtotime($selectedDate)); // Akhir bulan
+            $this->db->where('aktivitas_marketing.tanggal >=', $startOfMonth);
+            $this->db->where('aktivitas_marketing.tanggal <=', $endOfMonth);
+        }
+
+        // Tambahkan urutan DESC
+        $this->db->order_by('id_aktivitas', 'DESC');
         $aktivitasMarketing = $this->db->get()->result_array();
 
         // Set Header
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'ID Aktivitas');
-        $sheet->setCellValue('C1', 'Nama Sales - ID Sales');
-        $sheet->setCellValue('D1', 'Nama Nasabah - ID Nasabah');
+        $sheet->setCellValue('C1', 'Nama Sales');
+        $sheet->setCellValue('D1', 'Nama Nasabah');
         $sheet->setCellValue('E1', 'Hari');
         $sheet->setCellValue('F1', 'Tanggal');
         $sheet->setCellValue('G1', 'Aktivitas');
@@ -119,8 +162,8 @@ class Excell extends CI_Controller
         foreach ($aktivitasMarketing as $akm) {
             $sheet->setCellValue('A' . $row, $no++);
             $sheet->setCellValue('B' . $row, $akm['id_aktivitas']);
-            $sheet->setCellValue('C' . $row, $akm['nama_sales'] . ' - ' . $akm['id_sales']);
-            $sheet->setCellValue('D' . $row, $akm['nama_nasabah'] . ' - ' . $akm['id_nasabah']);
+            $sheet->setCellValue('C' . $row, $akm['nama_sales']);
+            $sheet->setCellValue('D' . $row, $akm['nama_nasabah']);
             $sheet->setCellValue('E' . $row, $akm['hari']);
             $sheet->setCellValue('F' . $row, date("j F Y", strtotime($akm['tanggal'])));
             $sheet->setCellValue('G' . $row, $akm['aktivitas']);
@@ -146,43 +189,74 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        // Cek apakah tombol "Export Semua Data" ditekan
+        if ($this->input->post('export_all')) {
+            // Logika untuk export semua data
+            $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+            $this->db->from('closing');
+            $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+            $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
+            $this->db->order_by('closing.id_closing', 'DESC');
+            $dataClosing = $this->db->get()->result_array();
+        } else {
+            // Ambil pilihan tanggal dan opsi export
+            $selectedDate = $this->input->post('selected_date');
+            $exportOption = $this->input->post('export_option');
 
-        $role_id = $this->session->userdata("role_id");
-        $id_sales = $data['user']['id_sales'];
+            // Ambil data user dan sales terkait
+            $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+            $role_id = $this->session->userdata("role_id");
+            $id_sales = $data['user']['id_sales'];
 
-        // query
-        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
-        $this->db->from('closing');
-        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
-        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
+            // Konfigurasi Query
+            $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+            $this->db->from('closing');
+            $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+            $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
 
-        if ($role_id != 1) {
-            $this->db->where('closing.id_sales', $id_sales);
+            if ($role_id != 1) {
+                $this->db->where('closing.id_sales', $id_sales);
+            }
+
+            // Logika filter berdasarkan pilihan (minggu atau bulan)
+            if ($exportOption == 'week') {
+                $startOfWeek = date('Y-m-d', strtotime('monday this week', strtotime($selectedDate)));
+                $endOfWeek = date('Y-m-d', strtotime('sunday this week', strtotime($selectedDate)));
+                $this->db->where('closing.tanggal >=', $startOfWeek);
+                $this->db->where('closing.tanggal <=', $endOfWeek);
+            } elseif ($exportOption == 'month') {
+                $startOfMonth = date('Y-m-01', strtotime($selectedDate));
+                $endOfMonth = date('Y-m-t', strtotime($selectedDate));
+                $this->db->where('closing.tanggal >=', $startOfMonth);
+                $this->db->where('closing.tanggal <=', $endOfMonth);
+            }
+
+            $this->db->order_by('closing.id_closing', 'DESC');
+            $dataClosing = $this->db->get()->result_array();
         }
 
-        $dataClosing = $this->db->get()->result_array();
-
         // Nama Header Kolom
-        $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
+        $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'ID Closing');
-        $sheet->setCellValue('C1', 'Sales - ID Sales');
-        $sheet->setCellValue('D1', 'Nasabah - ID Nasabah');
+        $sheet->setCellValue('C1', 'Sales');
+        $sheet->setCellValue('D1', 'Nasabah');
         $sheet->setCellValue('E1', 'Hari');
         $sheet->setCellValue('F1', 'Tanggal');
-        $sheet->setCellValue('G1', 'Nominal');
+        $sheet->setCellValue('G1', 'No Rekening');
+        $sheet->setCellValue('H1', 'Nominal');
 
-        // Isi data ke baris Excel mulai dari baris kedua
+        // Isi data ke baris Excel
         $row = 2;
         $no = 1;
         foreach ($dataClosing as $closing) {
             $sheet->setCellValue('A' . $row, $no++);
             $sheet->setCellValue('B' . $row, $closing['id_closing']);
-            $sheet->setCellValue('C' . $row, $closing['nama_sales'] . ' - ' . $closing['id_sales']);
-            $sheet->setCellValue('D' . $row, $closing['nama_nasabah'] . ' - ' . $closing['id_nasabah']);
+            $sheet->setCellValue('C' . $row, $closing['nama_sales']);
+            $sheet->setCellValue('D' . $row, $closing['nama_nasabah']);
             $sheet->setCellValue('E' . $row, $closing['hari']);
             $sheet->setCellValue('F' . $row, date("j F Y", strtotime($closing['tanggal'])));
-            $sheet->setCellValue('G' . $row, 'Rp ' . number_format($closing['nominal_closing'], 2, ',', '.'));
+            $sheet->setCellValue('G' . $row, $closing['no_rekening']);
+            $sheet->setCellValue('H' . $row, 'Rp ' . number_format($closing['nominal_closing'], 2, ',', '.'));
             $row++;
         }
 
@@ -203,43 +277,74 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        // Cek apakah tombol "Export Semua Data" ditekan
+        if ($this->input->post('export_all')) {
+            // Logika untuk export semua data
+            $this->db->select('pks.*, nasabah.nama_nasabah, sales.nama_sales');
+            $this->db->from('pks');
+            $this->db->join('nasabah', 'nasabah.id_nasabah = pks.id_nasabah', 'left');
+            $this->db->join('sales', 'sales.id_sales = pks.id_sales', 'left');
+            $this->db->order_by('pks.id_pks', 'DESC');
+            $dataPKS = $this->db->get()->result_array();
+        } else {
+            // Ambil pilihan tanggal dan opsi export
+            $selectedDate = $this->input->post('selected_date');
+            $exportOption = $this->input->post('export_option');
 
-        $role_id = $this->session->userdata("role_id");
-        $id_sales = $data['user']['id_sales'];
+            // Ambil data user dan sales terkait
+            $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+            $role_id = $this->session->userdata("role_id");
+            $id_sales = $data['user']['id_sales'];
 
-        // query
-        $this->db->select('pks.*, nasabah.nama_nasabah, sales.nama_sales');
-        $this->db->from('pks');
-        $this->db->join('nasabah', 'nasabah.id_nasabah = pks.id_nasabah', 'left');
-        $this->db->join('sales', 'sales.id_sales = pks.id_sales', 'left');
+            // Konfigurasi Query
+            $this->db->select('pks.*, nasabah.nama_nasabah, sales.nama_sales');
+            $this->db->from('pks');
+            $this->db->join('nasabah', 'nasabah.id_nasabah = pks.id_nasabah', 'left');
+            $this->db->join('sales', 'sales.id_sales = pks.id_sales', 'left');
 
-        if ($role_id != 1) {
-            $this->db->where('pks.id_sales', $id_sales);
+            if ($role_id != 1) {
+                $this->db->where('pks.id_sales', $id_sales);
+            }
+
+            // Logika filter berdasarkan pilihan (minggu atau bulan)
+            if ($exportOption == 'week') {
+                $startOfWeek = date('Y-m-d', strtotime('monday this week', strtotime($selectedDate)));
+                $endOfWeek = date('Y-m-d', strtotime('sunday this week', strtotime($selectedDate)));
+                $this->db->where('pks.tanggal_awal_pks >=', $startOfWeek);
+                $this->db->where('pks.tanggal_awal_pks <=', $endOfWeek);
+            } elseif ($exportOption == 'month') {
+                $startOfMonth = date('Y-m-01', strtotime($selectedDate));
+                $endOfMonth = date('Y-m-t', strtotime($selectedDate));
+                $this->db->where('pks.tanggal_awal_pks >=', $startOfMonth);
+                $this->db->where('pks.tanggal_awal_pks <=', $endOfMonth);
+            }
+
+            $this->db->order_by('pks.id_pks', 'DESC');
+            $dataPKS = $this->db->get()->result_array();
         }
-
-        $dataPKS = $this->db->get()->result_array();
 
         // Nama Header Kolom
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'ID');
-        $sheet->setCellValue('C1', 'Sales - ID Sales');
-        $sheet->setCellValue('D1', 'Nasabah - ID Nasabah');
+        $sheet->setCellValue('C1', 'Sales');
+        $sheet->setCellValue('D1', 'Nasabah');
         $sheet->setCellValue('E1', 'No PKS');
         $sheet->setCellValue('F1', 'Tanggal Awal PKS');
         $sheet->setCellValue('G1', 'Tanggal Akhir PKS');
+        $sheet->setCellValue('H1', 'Keterangan');
 
-        // Isi data ke baris Excel mulai dari baris kedua
+        // Isi data ke baris Excel
         $row = 2;
         $no = 1;
         foreach ($dataPKS as $pks) {
             $sheet->setCellValue('A' . $row, $no++);
             $sheet->setCellValue('B' . $row, $pks['id_pks']);
-            $sheet->setCellValue('C' . $row, $pks['nama_sales'] . ' - ' . $pks['id_sales']);
-            $sheet->setCellValue('D' . $row, $pks['nama_nasabah'] . ' - ' . $pks['id_nasabah']);
+            $sheet->setCellValue('C' . $row, $pks['nama_sales']);
+            $sheet->setCellValue('D' . $row, $pks['nama_nasabah']);
             $sheet->setCellValue('E' . $row, $pks['no_pks']);
             $sheet->setCellValue('F' . $row, date("j F Y", strtotime($pks['tanggal_awal_pks'])));
             $sheet->setCellValue('G' . $row, date("j F Y", strtotime($pks['tanggal_akhir_pks'])));
+            $sheet->setCellValue('H' . $row, $pks['keterangan']);
             $row++;
         }
 

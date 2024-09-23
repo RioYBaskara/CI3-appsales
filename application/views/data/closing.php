@@ -5,9 +5,33 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
-        <a href="<?= base_url('export/excell/exportclosing'); ?>"
-            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+
+        <div class="d-flex flex-column">
+            <!-- Tombol Export Semua Data -->
+            <form class="justify-content-end d-flex" method="post"
+                action="<?= base_url('export/excell/exportClosing'); ?>">
+                <button class="btn btn-primary mb-3" name="export_all" type="submit">
+                    <i class="fas fa-download fa-sm text-white-50"></i> Export Semua Data
+                </button>
+            </form>
+
+            <!-- Form Export Berdasarkan Tanggal -->
+            <form method="post" action="<?= base_url('export/excell/exportClosing'); ?>">
+                <div class="input-group">
+                    <input type="date" name="selected_date" class="form-control" required>
+                    <select name="export_option" class="custom-select" id="exportOption" required>
+                        <option value="week">Export Data Minggu Ini (berdasarkan tanggal)</option>
+                        <option value="month">Export Data Bulan Ini (berdasarkan tanggal)</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit"><i
+                                class="fas fa-download fa-sm text-white-50"></i>
+                            Generate Report</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <!-- content -->
