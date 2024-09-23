@@ -108,9 +108,12 @@ class Excell extends CI_Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-
         $role_id = $this->session->userdata("role_id");
         $id_sales = $data['user']['id_sales'];
+
+        // Ambil pilihan tanggal dan opsi export (minggu/bulan)
+        $selectedDate = $this->input->post('selected_date');
+        $exportOption = $this->input->post('export_option');
 
         // Konfigurasi Query
         $this->db->select('aktivitas_marketing.*, nasabah.nama_nasabah, sales.nama_sales');
@@ -118,17 +121,35 @@ class Excell extends CI_Controller
         $this->db->join('nasabah', 'nasabah.id_nasabah = aktivitas_marketing.id_nasabah', 'left');
         $this->db->join('sales', 'sales.id_sales = aktivitas_marketing.id_sales', 'left');
 
+        // Filter berdasarkan role user
         if ($role_id != 1) {
             $this->db->where('aktivitas_marketing.id_sales', $id_sales);
         }
 
+        // Logika filter berdasarkan pilihan (minggu atau bulan)
+        if ($exportOption == 'week') {
+            // Filter untuk minggu berdasarkan tanggal yang dipilih
+            $startOfWeek = date('Y-m-d', strtotime('monday this week', strtotime($selectedDate)));
+            $endOfWeek = date('Y-m-d', strtotime('sunday this week', strtotime($selectedDate)));
+            $this->db->where('aktivitas_marketing.tanggal >=', $startOfWeek);
+            $this->db->where('aktivitas_marketing.tanggal <=', $endOfWeek);
+        } elseif ($exportOption == 'month') {
+            // Filter untuk bulan berdasarkan tanggal yang dipilih
+            $startOfMonth = date('Y-m-01', strtotime($selectedDate));
+            $endOfMonth = date('Y-m-t', strtotime($selectedDate)); // Akhir bulan
+            $this->db->where('aktivitas_marketing.tanggal >=', $startOfMonth);
+            $this->db->where('aktivitas_marketing.tanggal <=', $endOfMonth);
+        }
+
+        // Tambahkan urutan DESC
+        $this->db->order_by('id_aktivitas', 'DESC');
         $aktivitasMarketing = $this->db->get()->result_array();
 
         // Set Header
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'ID Aktivitas');
-        $sheet->setCellValue('C1', 'Nama Sales - ID Sales');
-        $sheet->setCellValue('D1', 'Nama Nasabah - ID Nasabah');
+        $sheet->setCellValue('C1', 'Nama Sales');
+        $sheet->setCellValue('D1', 'Nama Nasabah');
         $sheet->setCellValue('E1', 'Hari');
         $sheet->setCellValue('F1', 'Tanggal');
         $sheet->setCellValue('G1', 'Aktivitas');
@@ -141,8 +162,8 @@ class Excell extends CI_Controller
         foreach ($aktivitasMarketing as $akm) {
             $sheet->setCellValue('A' . $row, $no++);
             $sheet->setCellValue('B' . $row, $akm['id_aktivitas']);
-            $sheet->setCellValue('C' . $row, $akm['nama_sales'] . ' - ' . $akm['id_sales']);
-            $sheet->setCellValue('D' . $row, $akm['nama_nasabah'] . ' - ' . $akm['id_nasabah']);
+            $sheet->setCellValue('C' . $row, $akm['nama_sales']);
+            $sheet->setCellValue('D' . $row, $akm['nama_nasabah']);
             $sheet->setCellValue('E' . $row, $akm['hari']);
             $sheet->setCellValue('F' . $row, date("j F Y", strtotime($akm['tanggal'])));
             $sheet->setCellValue('G' . $row, $akm['aktivitas']);
