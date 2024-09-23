@@ -189,43 +189,74 @@ class Excell extends CI_Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        // Cek apakah tombol "Export Semua Data" ditekan
+        if ($this->input->post('export_all')) {
+            // Logika untuk export semua data
+            $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+            $this->db->from('closing');
+            $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+            $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
+            $this->db->order_by('closing.id_closing', 'DESC');
+            $dataClosing = $this->db->get()->result_array();
+        } else {
+            // Ambil pilihan tanggal dan opsi export
+            $selectedDate = $this->input->post('selected_date');
+            $exportOption = $this->input->post('export_option');
 
-        $role_id = $this->session->userdata("role_id");
-        $id_sales = $data['user']['id_sales'];
+            // Ambil data user dan sales terkait
+            $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+            $role_id = $this->session->userdata("role_id");
+            $id_sales = $data['user']['id_sales'];
 
-        // query
-        $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
-        $this->db->from('closing');
-        $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
-        $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
+            // Konfigurasi Query
+            $this->db->select('closing.*, nasabah.nama_nasabah, sales.nama_sales');
+            $this->db->from('closing');
+            $this->db->join('nasabah', 'nasabah.id_nasabah = closing.id_nasabah', 'left');
+            $this->db->join('sales', 'sales.id_sales = closing.id_sales', 'left');
 
-        if ($role_id != 1) {
-            $this->db->where('closing.id_sales', $id_sales);
+            if ($role_id != 1) {
+                $this->db->where('closing.id_sales', $id_sales);
+            }
+
+            // Logika filter berdasarkan pilihan (minggu atau bulan)
+            if ($exportOption == 'week') {
+                $startOfWeek = date('Y-m-d', strtotime('monday this week', strtotime($selectedDate)));
+                $endOfWeek = date('Y-m-d', strtotime('sunday this week', strtotime($selectedDate)));
+                $this->db->where('closing.tanggal >=', $startOfWeek);
+                $this->db->where('closing.tanggal <=', $endOfWeek);
+            } elseif ($exportOption == 'month') {
+                $startOfMonth = date('Y-m-01', strtotime($selectedDate));
+                $endOfMonth = date('Y-m-t', strtotime($selectedDate));
+                $this->db->where('closing.tanggal >=', $startOfMonth);
+                $this->db->where('closing.tanggal <=', $endOfMonth);
+            }
+
+            $this->db->order_by('closing.id_closing', 'DESC');
+            $dataClosing = $this->db->get()->result_array();
         }
 
-        $dataClosing = $this->db->get()->result_array();
-
         // Nama Header Kolom
-        $sheet->setCellValue('A1', 'No'); // Tambahkan header untuk No
+        $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'ID Closing');
-        $sheet->setCellValue('C1', 'Sales - ID Sales');
-        $sheet->setCellValue('D1', 'Nasabah - ID Nasabah');
+        $sheet->setCellValue('C1', 'Sales');
+        $sheet->setCellValue('D1', 'Nasabah');
         $sheet->setCellValue('E1', 'Hari');
         $sheet->setCellValue('F1', 'Tanggal');
-        $sheet->setCellValue('G1', 'Nominal');
+        $sheet->setCellValue('G1', 'No Rekening');
+        $sheet->setCellValue('H1', 'Nominal');
 
-        // Isi data ke baris Excel mulai dari baris kedua
+        // Isi data ke baris Excel
         $row = 2;
         $no = 1;
         foreach ($dataClosing as $closing) {
             $sheet->setCellValue('A' . $row, $no++);
             $sheet->setCellValue('B' . $row, $closing['id_closing']);
-            $sheet->setCellValue('C' . $row, $closing['nama_sales'] . ' - ' . $closing['id_sales']);
-            $sheet->setCellValue('D' . $row, $closing['nama_nasabah'] . ' - ' . $closing['id_nasabah']);
+            $sheet->setCellValue('C' . $row, $closing['nama_sales']);
+            $sheet->setCellValue('D' . $row, $closing['nama_nasabah']);
             $sheet->setCellValue('E' . $row, $closing['hari']);
             $sheet->setCellValue('F' . $row, date("j F Y", strtotime($closing['tanggal'])));
-            $sheet->setCellValue('G' . $row, 'Rp ' . number_format($closing['nominal_closing'], 2, ',', '.'));
+            $sheet->setCellValue('G' . $row, $closing['no_rekening']);
+            $sheet->setCellValue('H' . $row, 'Rp ' . number_format($closing['nominal_closing'], 2, ',', '.'));
             $row++;
         }
 
