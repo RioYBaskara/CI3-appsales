@@ -30,6 +30,7 @@ class Excell extends CI_Controller
         // Cek apakah tombol "Export Semua Data" ditekan
         if ($this->input->post('export_all')) {
             // Logika untuk export semua data
+            $this->db->order_by('id_nasabah', 'DESC'); // Tambahkan urutan DESC
             $dataNasabah = $this->db->get('nasabah')->result_array();
         } else {
             // Ambil pilihan tanggal dan opsi export
@@ -65,6 +66,8 @@ class Excell extends CI_Controller
                 $this->db->where('nasabah.created_at <=', $endOfMonth);
             }
 
+            // Tambahkan urutan DESC
+            $this->db->order_by('id_nasabah', 'DESC');
             $dataNasabah = $this->db->get()->result_array();
         }
 
