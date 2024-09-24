@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2024 at 05:23 AM
+-- Generation Time: Sep 24, 2024 at 08:54 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,7 +52,7 @@ CREATE TABLE `closing` (
   `id_nasabah` int(11) DEFAULT NULL,
   `hari` varchar(10) NOT NULL,
   `tanggal` date NOT NULL,
-  `no_rekening` varchar(50) NOT NULL,
+  `no_rekening` varchar(50) DEFAULT NULL,
   `nominal_closing` decimal(15,2) NOT NULL,
   `upload_foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,7 +68,8 @@ CREATE TABLE `nasabah` (
   `id_nasabah` int(11) NOT NULL,
   `id_sales` int(11) NOT NULL,
   `nama_nasabah` varchar(100) NOT NULL,
-  `is_pinned` tinyint(1) DEFAULT 0
+  `is_pinned` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -107,6 +108,22 @@ CREATE TABLE `sales` (
 
 INSERT INTO `sales` (`id_sales`, `nama_sales`) VALUES
 (1, 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surat_audiensi`
+--
+
+CREATE TABLE `surat_audiensi` (
+  `id` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `nama_tujuan` varchar(255) NOT NULL,
+  `alamat_tujuan` text NOT NULL,
+  `perihal` varchar(255) NOT NULL,
+  `nama_institusi` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -155,7 +172,8 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 (3, 2, 2),
 (4, 1, 3),
 (6, 1, 6),
-(7, 2, 6);
+(7, 2, 6),
+(9, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -177,7 +195,8 @@ INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (2, 'Users'),
 (3, 'Menu'),
 (5, 'Testing'),
-(6, 'Data');
+(6, 'Data'),
+(7, 'Generate Surat');
 
 -- --------------------------------------------------------
 
@@ -231,7 +250,8 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (12, 2, 'Change Password', 'users/changepassword', 'fas fa-fw fa-key', 1),
 (13, 6, 'Aktivitas Marketing', 'data/aktivitasmarketing', 'fas fa-clipboard-list', 1),
 (14, 6, 'Closing', 'data/closing', 'fas fa-calendar-times', 1),
-(15, 6, 'PKS', 'data/pks', 'fas fa-handshake', 1);
+(15, 6, 'PKS', 'data/pks', 'fas fa-handshake', 1),
+(16, 7, 'Surat Audiensi', 'surat', 'fas fa-envelope-open-text', 1);
 
 --
 -- Indexes for dumped tables
@@ -273,6 +293,12 @@ ALTER TABLE `pks`
 --
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`id_sales`);
+
+--
+-- Indexes for table `surat_audiensi`
+--
+ALTER TABLE `surat_audiensi`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -323,25 +349,31 @@ ALTER TABLE `aktivitas_marketing`
 -- AUTO_INCREMENT for table `closing`
 --
 ALTER TABLE `closing`
-  MODIFY `id_closing` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_closing` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `pks`
 --
 ALTER TABLE `pks`
-  MODIFY `id_pks` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_pks` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
   MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `surat_audiensi`
+--
+ALTER TABLE `surat_audiensi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -353,13 +385,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -371,7 +403,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
