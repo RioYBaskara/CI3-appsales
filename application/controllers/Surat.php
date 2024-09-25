@@ -20,6 +20,26 @@ class Surat extends CI_Controller
         $this->load->library('pagination');
     }
 
+    private function convertBulan($bulan)
+    {
+        $bulanIndo = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember'
+        ];
+
+        return $bulanIndo[$bulan];
+    }
+
     public function index()
     {
         $data['title'] = 'Generate Surat Audiensi';
@@ -68,8 +88,12 @@ class Surat extends CI_Controller
             $this->load->view('surat/index', $data);
             $this->load->view('templates/footer');
         } else {
+            // Ambil tanggal dan konversi
+            $tanggal_input = $this->input->post('tanggal');
+            $tanggal = date("d", strtotime($tanggal_input)) . ' ' . $this->convertBulan(date("m", strtotime($tanggal_input))) . ' ' . date("Y", strtotime($tanggal_input));
+
             $data_input = [
-                'tanggal' => $this->input->post('tanggal'),
+                'tanggal' => $tanggal,
                 'nama_tujuan' => $this->input->post('nama_tujuan'),
                 'alamat_tujuan' => $this->input->post('alamat_tujuan'),
                 'perihal' => $this->input->post('perihal'),
@@ -93,8 +117,12 @@ class Surat extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             redirect('surat', $data);
         } else {
+            // Ambil tanggal dan konversi
+            $tanggal_input = $this->input->post('tanggal');
+            $tanggal = date("d", strtotime($tanggal_input)) . ' ' . $this->convertBulan(date("m", strtotime($tanggal_input))) . ' ' . date("Y", strtotime($tanggal_input));
+
             $data_input = [
-                'tanggal' => $this->input->post('tanggal'),
+                'tanggal' => $tanggal,
                 'nama_tujuan' => $this->input->post('nama_tujuan'),
                 'alamat_tujuan' => $this->input->post('alamat_tujuan'),
                 'perihal' => $this->input->post('perihal'),

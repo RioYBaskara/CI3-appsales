@@ -61,7 +61,8 @@
                         <tr>
                             <th><?= ++$start; ?></th>
                             <td><?= $sra['id']; ?></td>
-                            <td><?= date("j F Y", strtotime($sra['tanggal'])); ?></td>
+                            <!-- <td><?= date("j F Y", strtotime($sra['tanggal'])); ?></td> -->
+                            <td><?= $sra['tanggal']; ?></td>
                             <td><?= $sra['nama_tujuan']; ?></td>
                             <td><?= $sra['alamat_tujuan']; ?></td>
                             <td><?= $sra['perihal']; ?></td>
