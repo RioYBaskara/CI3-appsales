@@ -7,6 +7,22 @@
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
     </div>
 
+    <div class="row contoh-surat">
+        <div class="col">
+            <h4>Contoh Surat</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-3 mb-3">
+                    <img src="<?= base_url('assets/img/surat/1.jpg'); ?>" alt="Contoh Surat 1"
+                        class="img-fluid img-thumbnail">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <img src="<?= base_url('assets/img/surat/2.jpg'); ?>" alt="Contoh Surat 2"
+                        class="img-fluid img-thumbnail">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- content -->
     <div class="row">
         <div class="col-lg">
@@ -52,11 +68,11 @@
                             <td><?= $sra['nama_institusi']; ?></td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $sra['id']; ?>"
-                                    class="btn btn-success m-1"><i class="fa fa-pencil-alt"></i></a>
+                                    class="btn btn-success mt-1"><i class="fa fa-pencil-alt"></i></a>
                                 <a href="<?= base_url(); ?>surat/surathapus/<?= $sra['id']; ?>"
-                                    class="btn btn-danger tombol-hapus m-1"><i class="fa fa-trash"></i></a>
+                                    class="btn btn-danger tombol-hapus mt-1"><i class="fa fa-trash"></i></a>
                                 <a href="<?= base_url(); ?>surat/surataudiensiexport/<?= $sra['id']; ?>"
-                                    class="btn btn-info m-1"><i class="fas fa-envelope-open-text"></i></a>
+                                    class="btn btn-info mt-1"><i class="fas fa-envelope-open-text"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
