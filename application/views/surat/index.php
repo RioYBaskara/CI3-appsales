@@ -53,6 +53,7 @@
                         <th scope="col">Alamat Tujuan</th>
                         <th scope="col">Perihal</th>
                         <th scope="col">Nama Institusi</th>
+                        <th scope="col">Terbuat Pada</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -67,6 +68,7 @@
                             <td><?= $sra['alamat_tujuan']; ?></td>
                             <td><?= $sra['perihal']; ?></td>
                             <td><?= $sra['nama_institusi']; ?></td>
+                            <td><?= $sra['created_at']; ?></td>
                             <td>
                                 <a data-toggle="modal" data-target="#modal-edit<?= $sra['id']; ?>"
                                     class="btn btn-success mt-1"><i class="fa fa-pencil-alt"></i></a>
