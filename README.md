@@ -1,3 +1,5 @@
+admin login: a@a.com
+password: 123
 # Aplikasi Manajemen Sales
 
 Aplikasi Manajemen Sales ini dikembangkan untuk memudahkan pengelolaan aktivitas marketing, data closing, dan perjanjian kerjasama (PKS) dari sales. Aplikasi ini juga dilengkapi dengan sistem autentikasi, otorisasi, dan Role-Based Access Control (RBAC) untuk mengatur hak akses pengguna.
