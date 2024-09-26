@@ -182,7 +182,7 @@ foreach ($users as $u):
                                 <input type="text" class="form-control" id="users<?= $u['email'] ?>" name="email"
                                     value="<?= $u['email'] ?>" placeholder="Masukkan Email User" autocomplete="off">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-none">
                                 <label for="users<?= $u['image'] ?>" class="col-form-label">Nama Image:</label>
                                 <input type="text" class="form-control" id="users<?= $u['image'] ?>" name="image"
                                     value="<?= $u['image'] ?>" placeholder="Masukkan Image User" autocomplete="off">
