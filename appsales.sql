@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2024 at 08:54 AM
+-- Generation Time: Sep 26, 2024 at 06:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -117,9 +117,9 @@ INSERT INTO `sales` (`id_sales`, `nama_sales`) VALUES
 
 CREATE TABLE `surat_audiensi` (
   `id` int(11) NOT NULL,
-  `tanggal` date NOT NULL,
+  `tanggal` varchar(100) NOT NULL DEFAULT '',
   `nama_tujuan` varchar(255) NOT NULL,
-  `alamat_tujuan` text NOT NULL,
+  `alamat_tujuan` varchar(255) NOT NULL DEFAULT '',
   `perihal` varchar(255) NOT NULL,
   `nama_institusi` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -196,7 +196,7 @@ INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (3, 'Menu'),
 (5, 'Testing'),
 (6, 'Data'),
-(7, 'Generate Surat');
+(7, 'Surat');
 
 -- --------------------------------------------------------
 
@@ -373,7 +373,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `surat_audiensi`
 --
 ALTER TABLE `surat_audiensi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
