@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require_once APPPATH . '../vendor/autoload.php'; // Autoload Composer
+
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\PhpWord;
+
 /**
  * Buat ngilangin red line, karena intelphense
  *  @property form_validation $form_validation 
@@ -8,6 +13,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  @property input $input 
  *  @property db $db
  *  @property session $session
+ *  @property pagination $pagination
+ *  @property uri $uri
  */
 
 class Surat extends CI_Controller
@@ -16,7 +23,6 @@ class Surat extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
-
         $this->load->library('pagination');
     }
 
@@ -141,5 +147,38 @@ class Surat extends CI_Controller
         $this->db->delete("surat_audiensi", ["id" => $id]);
         $this->session->set_flashdata("flashswal", "Dihapus");
         redirect('surat');
+    }
+
+    public function surataudiensiexport($id)
+    {
+        // Mengambil data surat audiensi berdasarkan ID
+        $surat = $this->db->get_where('surat_audiensi', ['id' => $id])->row_array();
+
+        if (!$surat) {
+            // Jika tidak ada data, redirect atau set flashdata error
+            $this->session->set_flashdata("flashswal", "Surat tidak ditemukan.");
+            redirect('surat');
+            return;
+        }
+
+        // Path ke template DOCX
+        $templatePath = FCPATH . 'assets/filetemplate/template_surat_audiensi.docx'; // Pastikan path sesuai
+
+        // Membaca template menggunakan TemplateProcessor
+        $templateProcessor = new TemplateProcessor($templatePath);
+
+        // Mengganti placeholder dengan data dari database
+        $templateProcessor->setValue('tanggal', $surat['tanggal']);
+        $templateProcessor->setValue('nama_tujuan', $surat['nama_tujuan']);
+        $templateProcessor->setValue('alamat_tujuan', $surat['alamat_tujuan']);
+        $templateProcessor->setValue('perihal', $surat['perihal']);
+        $templateProcessor->setValue('nama_institusi', $surat['nama_institusi']);
+
+        // Menyimpan dokumen ke memori tanpa menyimpan file di server
+        $fileName = 'Surat_Audiensi_' . $id . '.docx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Cache-Control: max-age=0');
+        $templateProcessor->saveAs('php://output');
     }
 }
