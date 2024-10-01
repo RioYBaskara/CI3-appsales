@@ -1,5 +1,6 @@
-admin login: a@a.com
-password: 123
+- admin login: a@a.com
+- password: 123
+- php 8.2.12
 # Aplikasi Manajemen Sales
 
 Aplikasi Manajemen Sales ini dikembangkan untuk memudahkan pengelolaan aktivitas marketing, data closing, dan perjanjian kerjasama (PKS) dari sales. Aplikasi ini juga dilengkapi dengan sistem autentikasi, otorisasi, dan Role-Based Access Control (RBAC) untuk mengatur hak akses pengguna.
@@ -50,7 +51,6 @@ Aplikasi Manajemen Sales ini dikembangkan untuk memudahkan pengelolaan aktivitas
 - **Backend**: PHP (CodeIgniter 3)
 - **Database**: MySQL/MariaDB
 - **Frontend**: HTML, CSS, Bootstrap
-- **Autentikasi**: Implementasi custom dengan hashing password
 - **Library**: PhpOffice
 
 ## Instalasi
