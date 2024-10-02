@@ -27,6 +27,7 @@ class Admin extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Sales_model');
+        $this->load->model('surat/Audiensi_model');
         $this->load->model('Pks_model');
         $this->load->model('Nasabah_model');
         $this->load->model('Closing_model');
@@ -53,6 +54,7 @@ class Admin extends CI_Controller
         $data['jumlahrole'] = $this->Role_model->jumlahData();
         $data['jumlahaccess'] = $this->Access_model->jumlahData();
         $data['jumlahuser'] = $this->Users_model->jumlahData();
+        $data['jumlahsurataudiensi'] = $this->Audiensi_model->jumlahData();
 
         $role_id = $this->session->userdata("role_id");
 

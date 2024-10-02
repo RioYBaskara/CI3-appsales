@@ -51,7 +51,30 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <h5>Data Aplikasi</h5>
+            <h5>Data Surat</h5>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a style="text-decoration: none;" class="button" href="<?= base_url('surat'); ?>">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Surat Audiensi</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jumlahsurataudiensi ?></div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-envelope-open-text fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5>Data Sales</h5>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
             <a style="text-decoration: none;" class="button" href="<?= base_url('data/aktivitasmarketing'); ?>">
