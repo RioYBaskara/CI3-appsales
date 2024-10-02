@@ -31,6 +31,7 @@
                                 <hr>
                                 <div class="text-center">
                                     <p>Hubungi Admin jika lupa password!</p>
+                                    <p>Silahkan menghubungi Admin untuk membuat user baru!</p>
                                 </div>
                             </div>
                         </div>
